@@ -5,6 +5,11 @@
 /.pnp
 .pnp.js
 
+version.json
+undefined
+**/*.zip
+**/*.rar
+
 # testing
 /coverage
 
