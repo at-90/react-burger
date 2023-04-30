@@ -1,13 +1,104 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 body {
+  --footer-height: 82px;
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  scroll-behavior: smooth;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+ul,
+li {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.wrapper {
+  height: 100vh;
+  padding-bottom: var(--footer-height);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+main {
+  flex: 1 1 auto
+}
+
+.baseContainer {
+  width: 100%;
+  max-width: 1240px;
+}
+
+.scrollList {
+  height: 60vh;
+  overflow-y: scroll;
+  scrollbar-color: #8585AD #2F2F37;
+  scrollbar-width: thin;
+
+}
+
+.scrollList-short {
+  height: 368px;
+  width: auto;
+}
+
+
+.scrollList::-webkit-scrollbar {
+  width: 8px;
+  background-color: #2F2F37;
+
+}
+
+.scrollList::-webkit-scrollbar-thumb {
+  background-color: #8585AD;
+  border-radius: 3px;
+  cursor: grab;
+
+}
+
+.scrollList::-webkit-scrollbar-thumb:hover {
+  background-color: #253861;
+  box-shadow: inset 1px 1px 12px #e665d7;
+
+}
+
+.tabsBar {
+  display: flex;
+  justify-content: space-between;
+}
+
+.tabsBar .tab {
+  flex: 1 1 auto;
+  max-width: 100%;
+}
+
+.linksBar {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px
+}
+
+.nmr-4 {
+  margin-right: -16px;
+}
+
+.nmr-5 {
+  margin-right: -20px;
+}
+
+.nml-5 {
+  margin-left: -20px;
+}
+
+.mx-auto {
+  margin-left: auto;
+  margin-right: auto;
 }

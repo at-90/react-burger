@@ -1,0 +1,31 @@
+.menu {
+
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+}
+
+.menuContainer {
+    width: 100%;
+    max-width: 1280px;
+    composes: mx-auto from "../../index.css";
+
+}
+
+
+.menuLink {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    padding: 16px 20px;
+}
+
+.logo {
+    margin-left: 135px;
+}
+
+.personal {
+    margin-left: auto;
+}

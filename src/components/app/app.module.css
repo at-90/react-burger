@@ -1,0 +1,15 @@
+.mainContainer {
+    composes: baseContainer from "../../index.css";
+    composes: mx-auto from "../../index.css";
+    display: flex;
+    justify-content: space-between;
+    gap: 40px;
+}
+
+.mainPanel {
+    flex: 1 0 auto;
+    max-width: 50%;
+    max-height: 80vh;
+    background-color: transparent;
+
+}

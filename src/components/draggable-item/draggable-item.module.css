@@ -1,0 +1,6 @@
+.item {
+    display: flex;
+    justify-content: flex-eend;
+    align-items: center;
+    gap: 8px
+}

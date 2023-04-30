@@ -1,0 +1,22 @@
+.card {
+    position: relative;
+    text-align: center;
+    min-height: 208px;
+    padding: 0 16px;
+}
+
+.cardImage {
+    composes: mx-auto from "../../index.css";
+    display: block;
+
+    margin-bottom: 4px;
+
+}
+
+.cardPrice {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 4px;
+}

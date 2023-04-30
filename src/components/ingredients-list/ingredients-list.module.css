@@ -1,0 +1,9 @@
+.container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px 40px;
+}
+
+.ingredient {
+    flex: 0 0 100%;
+}
