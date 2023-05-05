@@ -3,7 +3,7 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import headerStyles from './app-header.module.css';
 
-const AppHeader = props => {
+const AppHeader = () => {
     return (
         <header className="pt-4 pb-4">
             <div className={[headerStyles.menuContainer, headerStyles.menu].join(' ')}>

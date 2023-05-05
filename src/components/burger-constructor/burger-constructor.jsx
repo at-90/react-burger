@@ -8,7 +8,7 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
 
-const BurgerConstructor = props => {
+const BurgerConstructor = () => {
     const imageStatic = orderList.find((elem) => elem.name === 'Краторная булка N-200i').image
 
     return (

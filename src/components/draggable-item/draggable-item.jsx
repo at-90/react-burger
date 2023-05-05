@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 import {
     ConstructorElement, DragIcon
 } from "@ya.praktikum/react-developer-burger-ui-components";
@@ -16,5 +17,14 @@ const DraggableItem = ({ item }) => {
         </article>
     )
 }
+
+DraggableItem.propTypes = {
+    item: PropTypes.shape({
+        name: PropTypes.string.isRequired,
+        image: PropTypes.string,
+        price: PropTypes.string.isRequired
+    })
+}
+
 
 export default DraggableItem
