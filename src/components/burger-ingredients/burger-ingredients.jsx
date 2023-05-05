@@ -1,5 +1,5 @@
 import { useState, useRef, useCallback } from 'react'
-import data from '../../utils/data.js'
+
 import {
     Tab
 } from "@ya.praktikum/react-developer-burger-ui-components";
@@ -8,7 +8,9 @@ import burgerIngredientsStyles from './burger-ingredients.module.css';
 
 
 
-const BurgerIngredients = () => {
+const BurgerIngredients = ({ data }) => {
+
+
 
     const buns = data.filter(elem => elem.type === 'bun');
     const sauces = data.filter(elem => elem.type === 'sauce');
@@ -53,6 +55,10 @@ const BurgerIngredients = () => {
             </div>
         </article >
     )
+}
+
+BurgerIngredients.defaultProps = {
+    data: []
 }
 
 export default BurgerIngredients
