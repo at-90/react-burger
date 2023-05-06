@@ -3,6 +3,7 @@
     text-align: center;
     min-height: 208px;
     padding: 0 16px;
+    cursor: pointer;
 }
 
 .cardImage {

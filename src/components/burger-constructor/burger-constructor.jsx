@@ -1,6 +1,11 @@
+import { useState, useEffect } from 'react';
+import { API_INGREDIENTS } from '../../constants/api.js';
+import { getDataResource } from '../../utils/getApiData.js';
+import Modal from "../modal/modal";
+import OrderDetails from "../order-details/order-details";
+import imageStatic from '../../images/bun-02.png'
 import burgerConstructorStyles from './burger-constructor.module.css';
-import DraggableItem from '../draggable-item/draggable-item'
-import orderList from '../../utils/data'
+import DraggableItem from '../draggable-item/draggable-item';
 import {
     Button,
     ConstructorElement,
@@ -9,7 +14,47 @@ import {
 
 
 const BurgerConstructor = () => {
-    const imageStatic = orderList.find((elem) => elem.name === 'Краторная булка N-200i').image
+
+    const [orderList, setOrderList] = useState([]);
+    const [error, setError] = useState(false);
+
+    const getData = async function (url) {
+
+        const result = await getDataResource(url);
+
+        if (result) {
+            const order = result.map(elem => {
+
+                const { _id, name, image, type, price } = elem;
+
+                return {
+                    _id, name, image, type, price
+                }
+            });
+
+            setOrderList(order);
+            setError(false)
+        }
+        else {
+            setError(true)
+        }
+    }
+
+    useEffect(() => {
+        getData(API_INGREDIENTS);
+    }, [])
+
+
+
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const handleModalOpen = () => {
+        setIsModalOpen(true)
+    }
+
+    const handleModalClose = () => {
+        setIsModalOpen(false)
+    }
 
     return (
         <div className={burgerConstructorStyles.order}>
@@ -45,8 +90,15 @@ const BurgerConstructor = () => {
                     </span>
                     <CurrencyIcon type="primary" />
                 </div>
-                <Button htmlType="button" type="primary" size="large">Оформить заказ</Button>
+                <Button htmlType="button" type="primary" size="large" onClick={handleModalOpen}>Оформить заказ</Button>
             </div>
+            {isModalOpen && (<Modal
+                isOpen={isModalOpen}
+                title=""
+                typeContent="order"
+                closeModal={handleModalClose}>
+                <OrderDetails />
+            </Modal>)}
         </div>
     )
 }

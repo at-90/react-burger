@@ -6,22 +6,20 @@
  */
 export const getDataResource = async (url) => {
 
-
     try {
 
         const res = await fetch(url);
 
         if (!res.ok) {
-            throw new Error('Ошибка - ' + res.status);
+            throw new Error('Ошибка: ' + res.status);
         }
         const data = await res.json();
         return data.data;
 
 
     } catch (error) {
-        console.log("Не загрузилось по API" + error.message);
+        console.log("Не загрузились данные по API. " + error.message);
         return false;
-
     }
 
 }

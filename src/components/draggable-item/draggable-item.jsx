@@ -6,7 +6,7 @@ import styles from './draggable-item.module.css';
 
 
 const DraggableItem = ({ item }) => {
-    // console.log({ name, image, price });
+
     return (
         <article className={styles.item}>
             <DragIcon type="primary" />
@@ -22,7 +22,7 @@ DraggableItem.propTypes = {
     item: PropTypes.shape({
         name: PropTypes.string.isRequired,
         image: PropTypes.string,
-        price: PropTypes.string.isRequired
+        price: PropTypes.number.isRequired
     })
 }
 

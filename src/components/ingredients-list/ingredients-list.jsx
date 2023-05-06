@@ -4,14 +4,16 @@ import styles from './ingredients-list.module.css';
 
 
 const IngredientsList = ({ ingredients }) => {
+
     return (
+
         <ul className={[styles.container, 'pt-6 pb-10'].join(' ')}>
 
             {
                 ingredients.map(({ _id, name, image, price }) => {
                     return (
                         < li className="ingredient" key={_id} >
-                            <Card name={name} image={image} price={price} />
+                            <Card _id={_id} name={name} image={image} price={price} />
                         </li>
                     )
 
@@ -19,6 +21,7 @@ const IngredientsList = ({ ingredients }) => {
             }
 
         </ul>
+
     )
 }
 
@@ -27,7 +30,7 @@ IngredientsList.propTypes = {
         _id: PropTypes.string.isRequired,
         name: PropTypes.string.isRequired,
         image: PropTypes.string,
-        price: PropTypes.string
+        price: PropTypes.number
     })).isRequired
 }
 

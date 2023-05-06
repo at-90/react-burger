@@ -5,7 +5,7 @@ import headerStyles from './app-header.module.css';
 
 const AppHeader = () => {
     return (
-        <header className="pt-4 pb-4">
+        <header className="pt-4 pb-4 header">
             <div className={[headerStyles.menuContainer, headerStyles.menu].join(' ')}>
                 <div className="linksBar">
                     <a className={headerStyles.menuLink}><BurgerIcon /><span className='text text_type_main-default'>Конструктор</span></a>

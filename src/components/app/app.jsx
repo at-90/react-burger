@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import ErrorBoundary from '../error/error-boundary';
 import AppHeader from '../app-header/app-header';
 import { API_INGREDIENTS } from '../../constants/api.js';
 import { getDataResource } from '../../utils/getApiData.js';
@@ -17,10 +18,10 @@ const App = () => {
 
         if (result) {
             const ingredientsList = result.map(elem => {
-                const { _id, name, image, type } = elem;
+                const { _id, name, image, type, price } = elem;
 
                 return {
-                    _id, name, image, type
+                    _id, name, image, type, price
                 }
             });
 
@@ -28,6 +29,7 @@ const App = () => {
             setError(false)
         }
         else {
+
             setError(true)
         }
     }
@@ -37,14 +39,15 @@ const App = () => {
     }, [])
 
     return (
-        <div className="wrapper">
-            <AppHeader />
-            <main className={appStyles.mainContainer}>
-                <div className={appStyles.mainPanel}><BurgerIngredients data={ingredients} /></div>
-                <div className={appStyles.mainPanel}><BurgerConstructor data={ingredients} /></div>
-            </main>
-
-        </div >
+        <ErrorBoundary errorApp={error}>
+            <div className="wrapper">
+                <AppHeader />
+                <main className={appStyles.mainContainer}>
+                    <div className={appStyles.mainPanel}><BurgerIngredients data={ingredients} /></div>
+                    <div className={appStyles.mainPanel}><BurgerConstructor data={ingredients} /></div>
+                </main>
+            </div >
+        </ErrorBoundary>
     )
 }
 
