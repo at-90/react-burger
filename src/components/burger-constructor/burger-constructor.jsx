@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
-import { API_INGREDIENTS } from '../../constants/api.js';
-import { getDataResource } from '../../utils/getApiData.js';
 import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
 import imageStatic from '../../images/bun-02.png'
+import PropTypes from 'prop-types';
+import { ingredientsTypes } from '../../constants/data-types.js';
 import burgerConstructorStyles from './burger-constructor.module.css';
 import DraggableItem from '../draggable-item/draggable-item';
 import {
@@ -13,38 +13,9 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
 
-const BurgerConstructor = () => {
+const BurgerConstructor = ({ data }) => {
 
-    const [orderList, setOrderList] = useState([]);
-    const [error, setError] = useState(false);
-
-    const getData = async function (url) {
-
-        const result = await getDataResource(url);
-
-        if (result) {
-            const order = result.map(elem => {
-
-                const { _id, name, image, type, price } = elem;
-
-                return {
-                    _id, name, image, type, price
-                }
-            });
-
-            setOrderList(order);
-            setError(false)
-        }
-        else {
-            setError(true)
-        }
-    }
-
-    useEffect(() => {
-        getData(API_INGREDIENTS);
-    }, [])
-
-
+    const orderList = data;
 
     const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -102,5 +73,10 @@ const BurgerConstructor = () => {
         </div>
     )
 }
+
+BurgerConstructor.propTypes = {
+    data: PropTypes.arrayOf(ingredientsTypes).isRequired
+}
+
 
 export default BurgerConstructor

@@ -17,16 +17,11 @@ const App = () => {
         const result = await getDataResource(url);
 
         if (result) {
-            const ingredientsList = result.map(elem => {
-                const { _id, name, image, type, price } = elem;
 
-                return {
-                    _id, name, image, type, price
-                }
-            });
-
+            const ingredientsList = result.map(elem => elem);
             setIngredients(ingredientsList);
             setError(false)
+
         }
         else {
 

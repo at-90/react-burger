@@ -4,6 +4,7 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import IngredientsList from '../ingredients-list/ingredients-list.jsx';
 import PropTypes from 'prop-types';
+import { ingredientsTypes } from '../../constants/data-types.js';
 import burgerIngredientsStyles from './burger-ingredients.module.css';
 
 
@@ -57,12 +58,7 @@ const BurgerIngredients = ({ data }) => {
 }
 
 BurgerIngredients.propTypes = {
-    data: PropTypes.array.isRequired
-}
-
-
-BurgerIngredients.defaultProps = {
-    data: []
+    data: PropTypes.arrayOf(ingredientsTypes).isRequired
 }
 
 export default BurgerIngredients

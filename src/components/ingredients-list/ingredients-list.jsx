@@ -1,5 +1,6 @@
 import Card from '../card/card';
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
+import { ingredientsTypes } from '../../constants/data-types';
 import styles from './ingredients-list.module.css';
 
 
@@ -10,10 +11,11 @@ const IngredientsList = ({ ingredients }) => {
         <ul className={[styles.container, 'pt-6 pb-10'].join(' ')}>
 
             {
-                ingredients.map(({ _id, name, image, price }) => {
+                ingredients.map((elem) => {
+                    const { _id } = elem
                     return (
                         < li className="ingredient" key={_id} >
-                            <Card _id={_id} name={name} image={image} price={price} />
+                            <Card data={elem} />
                         </li>
                     )
 
@@ -26,12 +28,7 @@ const IngredientsList = ({ ingredients }) => {
 }
 
 IngredientsList.propTypes = {
-    ingredients: PropTypes.arrayOf(PropTypes.shape({
-        _id: PropTypes.string.isRequired,
-        name: PropTypes.string.isRequired,
-        image: PropTypes.string,
-        price: PropTypes.number
-    })).isRequired
+    ingredients: PropTypes.arrayOf(ingredientsTypes).isRequired
 }
 
 

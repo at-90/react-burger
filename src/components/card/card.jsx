@@ -2,13 +2,15 @@ import { useState } from 'react';
 import Modal from '../modal/modal';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import PropTypes from 'prop-types';
+import { ingredientsTypes } from '../../constants/data-types';
 import styles from './card.module.css';
 import {
     CurrencyIcon, Counter
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
-const Card = ({ _id, name, image, price }) => {
+const Card = ({ data }) => {
 
+    const { name, image, price } = data
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     const handleModalOpen = () => {
@@ -31,10 +33,9 @@ const Card = ({ _id, name, image, price }) => {
                 <p className="text text_type_main-default">{name}</p>
             </article>
             {isModalOpen && (<Modal
-                isOpen={isModalOpen}
                 title="Детали ингредиента"
                 closeModal={handleModalClose}>
-                <IngredientDetails _id={_id} />
+                <IngredientDetails data={data} />
             </Modal>)}
         </>
     )
@@ -42,15 +43,7 @@ const Card = ({ _id, name, image, price }) => {
 
 
 Card.propTypes = {
-    _id: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    image: PropTypes.string,
-    price: PropTypes.number.isRequired
-}
-
-Card.defaultProps = {
-    name: 'Неизвестный',
-    image: 'No Picture'
+    data: ingredientsTypes.isRequired
 }
 
 

@@ -1,23 +1,10 @@
-import { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import styles from './modal-overlay.module.css';
 
 const ModalOverlay = ({ children, closeModal }) => {
 
-    const overlayRef = useRef(null);
-
-    const handleKeyDown = (e) => {
-        if (e.key === 'Escape') {
-            closeModal(false);
-        }
-    }
-
-    useEffect(() => {
-        overlayRef.current.focus();
-    }, []);
-
     return (
-        <div className={styles.modalOverlay} onClick={closeModal} ref={overlayRef} tabIndex={-1} onKeyDown={handleKeyDown}>
+        <div className={styles.modalOverlay} onClick={closeModal}>
             {children}
         </div>
     )
@@ -25,10 +12,10 @@ const ModalOverlay = ({ children, closeModal }) => {
 
 
 ModalOverlay.propTypes = {
-    closeModal: PropTypes.func,
+    closeModal: PropTypes.func.isRequired,
     children: PropTypes.oneOfType([
-        PropTypes.arrayOf(PropTypes.node),
-        PropTypes.node
+        PropTypes.arrayOf(PropTypes.node).isRequired,
+        PropTypes.node.isRequired
     ])
 }
 

@@ -21,7 +21,7 @@ const DraggableItem = ({ item }) => {
 DraggableItem.propTypes = {
     item: PropTypes.shape({
         name: PropTypes.string.isRequired,
-        image: PropTypes.string,
+        image: PropTypes.string.isRequired,
         price: PropTypes.number.isRequired
     })
 }
