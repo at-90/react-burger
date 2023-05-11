@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
+import { ProductsContext } from '../../services/productsContext';
 import ErrorBoundary from '../error/error-boundary';
 import AppHeader from '../app-header/app-header';
 import { API_INGREDIENTS } from '../../constants/api.js';
@@ -35,13 +36,15 @@ const App = () => {
 
     return (
         <ErrorBoundary errorApp={error}>
-            <div className="wrapper">
-                <AppHeader />
-                <main className={appStyles.mainContainer}>
-                    <div className={appStyles.mainPanel}><BurgerIngredients data={ingredients} /></div>
-                    <div className={appStyles.mainPanel}><BurgerConstructor data={ingredients} /></div>
-                </main>
-            </div >
+            <ProductsContext.Provider value={{ ingredients, setIngredients }}>
+                <div className="wrapper">
+                    <AppHeader />
+                    <main className={appStyles.mainContainer}>
+                        <div className={appStyles.mainPanel}><BurgerIngredients data={ingredients} /></div>
+                        <div className={appStyles.mainPanel}><BurgerConstructor data={ingredients} /></div>
+                    </main>
+                </div >
+            </ProductsContext.Provider>
         </ErrorBoundary>
     )
 }

@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
+import { ProductsContext } from '../../services/productsContext';
 import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
 import imageStatic from '../../images/bun-02.png'
@@ -13,9 +14,23 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
 
-const BurgerConstructor = ({ data }) => {
+const BurgerConstructor = () => {
 
-    const orderList = data;
+    let { ingredients } = useContext(ProductsContext);
+
+    // const [buns, setBuns] = useState([]);
+
+    // useEffect(() => {
+    //     const newBun = ingredients.filter(elem => elem.type === 'bun')
+    //     setBuns(newBun);
+
+    // }, [ingredients])
+
+    const buns = ingredients.filter(elem => elem.type === 'bun');
+
+    const rundomBun = buns[Math.floor(Math.random() * buns.length)];
+
+    const orderList = ingredients.filter(elem => elem.type !== 'bun');
 
     const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -29,30 +44,29 @@ const BurgerConstructor = ({ data }) => {
 
     return (
         <div className={burgerConstructorStyles.order}>
-            <ConstructorElement
+
+            {buns.length && <ConstructorElement
                 type="top"
                 isLocked={true}
-                text="Краторная булка N-200i (верх)"
-                price={200}
-                thumbnail={imageStatic}
-            />
+                text={`${rundomBun.name} (верх)`}
+                price={rundomBun.price}
+                thumbnail={rundomBun.image}
+            />}
             <div className="scrollList scrollList-short mt-4 mb-4 pr-2 nmr-4">
                 <div className={burgerConstructorStyles.orderList}>
-                    {orderList.filter(elem => elem.name !== 'Краторная булка N-200i').map((elem) => {
-
+                    {orderList.map((elem) => {
                         return <DraggableItem item={elem} key={elem._id} />
-
                     })
                     }
                 </div>
             </div>
-            <ConstructorElement
-                type="bottom"
+            {buns.length && <ConstructorElement
+                type="top"
                 isLocked={true}
-                text="Краторная булка N-200i (низ)"
-                price={1255}
-                thumbnail={imageStatic}
-            />
+                text={`${rundomBun.name} (низ)`}
+                price={rundomBun.price}
+                thumbnail={rundomBun.image}
+            />}
 
             <div className={[burgerConstructorStyles.amount, 'pt-10'].join(' ')}>
                 <div className={[burgerConstructorStyles.amountValue, 'mr-10'].join(' ')}>
@@ -74,9 +88,6 @@ const BurgerConstructor = ({ data }) => {
     )
 }
 
-BurgerConstructor.propTypes = {
-    data: PropTypes.arrayOf(ingredientsTypes).isRequired
-}
 
 
 export default BurgerConstructor

@@ -1,4 +1,5 @@
-import { useState, useRef, useCallback } from 'react'
+import { useState, useRef, useCallback, useContext } from 'react';
+import { ProductsContext } from '../../services/productsContext.js';
 import {
     Tab
 } from "@ya.praktikum/react-developer-burger-ui-components";
@@ -8,7 +9,9 @@ import { ingredientsTypes } from '../../constants/data-types.js';
 import burgerIngredientsStyles from './burger-ingredients.module.css';
 
 
-const BurgerIngredients = ({ data }) => {
+const BurgerIngredients = () => {
+
+    const { ingredients: data } = useContext(ProductsContext)
 
     const buns = data.filter(elem => elem.type === 'bun');
     const sauces = data.filter(elem => elem.type === 'sauce');
@@ -57,8 +60,5 @@ const BurgerIngredients = ({ data }) => {
     )
 }
 
-BurgerIngredients.propTypes = {
-    data: PropTypes.arrayOf(ingredientsTypes).isRequired
-}
 
 export default BurgerIngredients
