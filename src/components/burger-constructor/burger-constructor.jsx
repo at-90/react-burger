@@ -1,10 +1,7 @@
-import { useState, useEffect, useContext } from 'react';
-import { ProductsContext } from '../../services/productsContext';
+import { useState, useEffect, useContext, useReducer } from 'react';
+import { IngredientsContext, ProductsContext, TotalSumContext } from '../../services/productsContext';
 import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
-import imageStatic from '../../images/bun-02.png'
-import PropTypes from 'prop-types';
-import { ingredientsTypes } from '../../constants/data-types.js';
 import burgerConstructorStyles from './burger-constructor.module.css';
 import DraggableItem from '../draggable-item/draggable-item';
 import {
@@ -16,15 +13,8 @@ import {
 
 const BurgerConstructor = () => {
 
-    let { ingredients } = useContext(ProductsContext);
-
-    // const [buns, setBuns] = useState([]);
-
-    // useEffect(() => {
-    //     const newBun = ingredients.filter(elem => elem.type === 'bun')
-    //     setBuns(newBun);
-
-    // }, [ingredients])
+    const { ingredients } = useContext(IngredientsContext);
+    const { totalSum, totalSumDispatcher } = useContext(TotalSumContext);
 
     const buns = ingredients.filter(elem => elem.type === 'bun');
 
@@ -41,6 +31,16 @@ const BurgerConstructor = () => {
     const handleModalClose = () => {
         setIsModalOpen(false)
     }
+
+    useEffect(
+        () => {
+            let total = 2 * rundomBun.price;
+            orderList.map(item => (total += 1 * item.price));
+            console.log(total);
+            totalSumDispatcher({ type: 'calculate', payload: total });
+        },
+        [ingredients, totalSumDispatcher]
+    );
 
     return (
         <div className={burgerConstructorStyles.order}>
@@ -71,7 +71,7 @@ const BurgerConstructor = () => {
             <div className={[burgerConstructorStyles.amount, 'pt-10'].join(' ')}>
                 <div className={[burgerConstructorStyles.amountValue, 'mr-10'].join(' ')}>
                     <span className={"text text_type_digits-medium"}>
-                        610
+                        {totalSum.sum}
                     </span>
                     <CurrencyIcon type="primary" />
                 </div>

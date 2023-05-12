@@ -1,5 +1,5 @@
 import { useState, useRef, useCallback, useContext } from 'react';
-import { ProductsContext } from '../../services/productsContext.js';
+import { IngredientsContext } from '../../services/productsContext.js';
 import {
     Tab
 } from "@ya.praktikum/react-developer-burger-ui-components";
@@ -11,7 +11,7 @@ import burgerIngredientsStyles from './burger-ingredients.module.css';
 
 const BurgerIngredients = () => {
 
-    const { ingredients: data } = useContext(ProductsContext)
+    const { ingredients: data } = useContext(IngredientsContext)
 
     const buns = data.filter(elem => elem.type === 'bun');
     const sauces = data.filter(elem => elem.type === 'sauce');

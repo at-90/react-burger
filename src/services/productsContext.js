@@ -1,3 +1,4 @@
 import React from 'react';
 
-export const ProductsContext = React.createContext(null);
+export const IngredientsContext = React.createContext(null);
+export const TotalSumContext = React.createContext(null);
