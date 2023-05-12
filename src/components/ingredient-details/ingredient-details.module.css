@@ -1,0 +1,21 @@
+.details {
+    composes: mx-auto from "../../index.css";
+    max-width: 520px;
+}
+
+.detailsImage {
+    composes: mx-auto from "../../index.css";
+    max-height: 260px;
+}
+
+.detailsInfo {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    gap: 20px;
+}
+
+.detailsInfoElement {
+    flex: 1 1 100%;
+    text-align: center;
+}

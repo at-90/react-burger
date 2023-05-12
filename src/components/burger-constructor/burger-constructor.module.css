@@ -1,0 +1,32 @@
+.order {
+    padding: 100px 16px 0 16px;
+    display: grid;
+    grid-template-rows: auto auto auto auto;
+    grid-template-columns: 1fr;
+    justify-items: end;
+}
+
+
+.orderList {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.amount {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.amountValue {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+}
+
+.amountValue svg {
+    height: 35px;
+    width: 35px;
+}
