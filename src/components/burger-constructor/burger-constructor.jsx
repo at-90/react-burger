@@ -1,5 +1,6 @@
-import { useState, useEffect, useContext, useReducer } from 'react';
+import { useState, useEffect, useContext, useMemo } from 'react';
 import { IngredientsContext, ProductsContext, TotalSumContext } from '../../services/productsContext';
+import { sendApiOrderDetails } from '../../utils/getApiData';
 import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
 import burgerConstructorStyles from './burger-constructor.module.css';
@@ -9,6 +10,7 @@ import {
     ConstructorElement,
     CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
+import { API_ORDERS } from '../../constants/api';
 
 
 const BurgerConstructor = () => {
@@ -17,10 +19,19 @@ const BurgerConstructor = () => {
     const { totalSum, totalSumDispatcher } = useContext(TotalSumContext);
 
     const buns = ingredients.filter(elem => elem.type === 'bun');
-
-    const rundomBun = buns[Math.floor(Math.random() * buns.length)];
+    const rundomBun = useMemo(() => { return buns[Math.floor(Math.random() * buns.length)] }, [buns]);
 
     const orderList = ingredients.filter(elem => elem.type !== 'bun');
+
+    const [order, setOrder] = useState({});
+
+    const orderStructure = useMemo(() => {
+
+        let idArray = [rundomBun._id];
+        orderList.forEach(elem => idArray.push(elem._id));
+        return idArray
+
+    }, [orderList])
 
     const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -32,20 +43,36 @@ const BurgerConstructor = () => {
         setIsModalOpen(false)
     }
 
+    const handleCheckout = async () => {
+
+        const getOrder = async () => {
+            const result = await sendApiOrderDetails(API_ORDERS, orderStructure);
+
+            if (result.success) {
+                setOrder(result)
+            }
+            else {
+                return false
+            }
+        }
+        await getOrder();
+        handleModalOpen()
+    }
+
     useEffect(
         () => {
             let total = 2 * rundomBun.price;
             orderList.map(item => (total += 1 * item.price));
-            console.log(total);
             totalSumDispatcher({ type: 'calculate', payload: total });
         },
-        [ingredients, totalSumDispatcher]
+        [ingredients, totalSumDispatcher, order]
     );
+
 
     return (
         <div className={burgerConstructorStyles.order}>
 
-            {buns.length && <ConstructorElement
+            {<ConstructorElement
                 type="top"
                 isLocked={true}
                 text={`${rundomBun.name} (верх)`}
@@ -60,12 +87,13 @@ const BurgerConstructor = () => {
                     }
                 </div>
             </div>
-            {buns.length && <ConstructorElement
+            {<ConstructorElement
                 type="top"
                 isLocked={true}
                 text={`${rundomBun.name} (низ)`}
                 price={rundomBun.price}
                 thumbnail={rundomBun.image}
+                extraClass="constructor-element_pos_bottom"
             />}
 
             <div className={[burgerConstructorStyles.amount, 'pt-10'].join(' ')}>
@@ -75,19 +103,17 @@ const BurgerConstructor = () => {
                     </span>
                     <CurrencyIcon type="primary" />
                 </div>
-                <Button htmlType="button" type="primary" size="large" onClick={handleModalOpen}>Оформить заказ</Button>
+                <Button htmlType="button" type="primary" size="large" onClick={handleCheckout}>Оформить заказ</Button>
             </div>
             {isModalOpen && (<Modal
                 isOpen={isModalOpen}
                 title=""
                 typeContent="order"
                 closeModal={handleModalClose}>
-                <OrderDetails />
+                <OrderDetails order={order.order} />
             </Modal>)}
         </div>
     )
 }
-
-
 
 export default BurgerConstructor

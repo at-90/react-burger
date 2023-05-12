@@ -23,3 +23,28 @@ export const getDataResource = async (url) => {
     }
 
 }
+
+export const sendApiOrderDetails = async (url, orderStructure) => {
+
+    try {
+
+        const res = await fetch(url, {
+            method: 'post',
+            headers: { 'Content-Type': 'application/json;charset=utf-8' },
+            body: JSON.stringify({ ingredients: orderStructure })
+        });
+
+        if (!res.ok) {
+            throw new Error('Ошибка: ' + res.status);
+        }
+        const data = await res.json();
+        return data;
+
+
+    } catch (error) {
+        console.log("Не загрузились данные по API. " + error.message);
+        return false;
+    }
+
+}
+
