@@ -7,8 +7,6 @@ const Preloader = props => {
             <div className={styles.loading}>
                 <span></span>
                 <span></span>
-                <span></span>
-                <span></span>
                 <div className={styles.text}>Загрузка...</div>
             </div>
         </div>

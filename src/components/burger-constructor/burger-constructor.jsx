@@ -1,6 +1,7 @@
 import { useState, useEffect, useContext, useMemo } from 'react';
 import { IngredientsContext, ProductsContext, TotalSumContext } from '../../services/productsContext';
-import { sendApiOrderDetails } from '../../utils/getApiData';
+import PropTypes from 'prop-types';
+import { request } from '../../utils/getApiData';
 import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
 import burgerConstructorStyles from './burger-constructor.module.css';
@@ -13,7 +14,7 @@ import {
 import { API_ORDERS } from '../../constants/api';
 
 
-const BurgerConstructor = () => {
+const BurgerConstructor = ({ setError }) => {
 
     const { ingredients } = useContext(IngredientsContext);
     const { totalSum, totalSumDispatcher } = useContext(TotalSumContext);
@@ -43,19 +44,24 @@ const BurgerConstructor = () => {
         setIsModalOpen(false)
     }
 
-    const handleCheckout = async () => {
+    const handleCheckout = () => {
 
-        const getOrder = async () => {
-            const result = await sendApiOrderDetails(API_ORDERS, orderStructure);
+        const getOrder = () => {
+            return request(API_ORDERS, {
+                method: 'post',
+                headers: { 'Content-Type': 'application/json;charset=utf-8' },
+                body: JSON.stringify({ ingredients: orderStructure })
+            })
+        }
 
+        getOrder().then((result) => {
             if (result.success) {
                 setOrder(result)
             }
-            else {
-                return false
-            }
-        }
-        await getOrder();
+        }).catch((err) => {
+            setError({ hasError: true, message: err.message })
+        })
+
         handleModalOpen()
     }
 
@@ -108,12 +114,22 @@ const BurgerConstructor = () => {
             {isModalOpen && (<Modal
                 isOpen={isModalOpen}
                 title=""
-                typeContent="order"
+                typeModal="big"
                 closeModal={handleModalClose}>
                 <OrderDetails order={order.order} />
             </Modal>)}
         </div>
     )
 }
+
+BurgerConstructor.propTypes = {
+    setError: PropTypes.func.isRequired
+}
+
+Modal.defaultProps = {
+    setError() { }
+}
+
+
 
 export default BurgerConstructor

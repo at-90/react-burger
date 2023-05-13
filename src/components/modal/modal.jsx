@@ -7,9 +7,9 @@ import modalStyles from './modal.module.css';
 
 const modalRoot = document.querySelector("#modal");
 
-const Modal = ({ title, closeModal, children, typeContent }) => {
+const Modal = ({ title, closeModal, children, typeModal }) => {
 
-    const modalConentStyles = typeContent === 'order' ? 'pt-10 pr-10 pl-10 pb-30' : 'pt-10 pr-10 pl-10 pb-15';
+    const modalConentStyles = typeModal === 'big' ? 'pt-10 pr-10 pl-10 pb-30' : 'pt-10 pr-10 pl-10 pb-15';
 
     const overlayRef = useRef(null);
 
@@ -55,14 +55,14 @@ Modal.propTypes = {
         PropTypes.node.isRequired
     ]).isRequired,
     title: PropTypes.string,
-    typeContent: PropTypes.string
+    typeModal: PropTypes.string
 }
 
 Modal.defaultProps = {
     closeModal() { },
     title: '',
     isOpen: false,
-    typeContent: 'info'
+    typeModal: 'info'
 }
 
 

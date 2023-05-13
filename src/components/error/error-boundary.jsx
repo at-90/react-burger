@@ -28,8 +28,10 @@ class ErrorBoundary extends React.Component {
                     <h1>Что-то пошло не так :(</h1>
                     <p>
                         В приложении произошла ошибка.
-                        <br />Пожалуйста, перезагрузите страницу.
+                        <br />{this.props.errorMessage}
                     </p>
+                    <br />Пожалуйста, перезагрузите страницу.
+
                 </section>
             );
         }

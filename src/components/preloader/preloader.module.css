@@ -10,7 +10,7 @@
     flex-direction: column;
     overflow: hidden;
 
-    --clr: #8c12ca;
+    --clr: #a40af5;
     --clr1: #4c4cff;
 }
 
@@ -47,8 +47,8 @@
 }
 
 .loading span {
-    width: 60%;
-    height: 60%;
+    width: 280px;
+    height: 280px;
     position: absolute;
     border-left: 3px solid var(--clr1);
     border-right: 3px solid var(--clr);
