@@ -1,15 +1,19 @@
-import { useState, useEffect, useReducer } from 'react';
-import { IngredientsContext, TotalSumContext } from '../../services/productsContext';
+import { useEffect, useReducer } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { TotalSumContext } from '../../services/productsContext';
 import ErrorBoundary from '../error/error-boundary';
 import Preloader from '../preloader/preloader';
 import AppHeader from '../app-header/app-header';
-import { API_INGREDIENTS } from '../../constants/api.js';
-import { request } from '../../utils/getApiData.js';
+import { getApiIngredients } from '../../services/actions/burger-ingredients';
+import { HTML5Backend } from "react-dnd-html5-backend";
+import { DndProvider } from "react-dnd";
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
 import BurgerConstructor from '../burger-constructor/burger-constructor';
-import appStyles from './app.module.css'
+import appStyles from './app.module.css';
 
 const App = () => {
+
+    const dispatch = useDispatch();
 
     const totalSumInitial = { sum: 0 };
     const reducer = (state, action) => {
@@ -18,50 +22,30 @@ const App = () => {
         return state
     }
     const [totalSum, totalSumDispatcher] = useReducer(reducer, totalSumInitial)
+    const { itemsRequest, items } = useSelector(store => store.ingredients)
 
-    const [ingredients, setIngredients] = useState([]);
-    const [error, setError] = useState({ hasError: false, message: '' });
-    const [isLoaded, setIsloaded] = useState(false);
-
-
-    const getData = (url) => { return request(url) }
-
-    useEffect(() => {
-
-        getData(API_INGREDIENTS)
-            .then((result) => {
-                if (result.success) {
-                    setIngredients(result.data);
-                    setIsloaded(true);
-                    setError({ hasError: false, message: '' })
-                }
-            })
-            .catch((err) => {
-                setIsloaded(false);
-                setError({ hasError: true, message: err.message })
-            })
-
-    }, [])
+    useEffect(() => { dispatch(getApiIngredients()) }, [dispatch])
 
     return (
-        <ErrorBoundary errorApp={error.hasError} errorMessage={error.message}>
-            <IngredientsContext.Provider value={{ ingredients, setIngredients }}>
-                <TotalSumContext.Provider value={{ totalSum, totalSumDispatcher }}>
-                    {
-                        isLoaded
-                            ? <div className="wrapper">
-                                <AppHeader />
-                                <main className={appStyles.mainContainer}>
-                                    <div className={appStyles.mainPanel}><BurgerIngredients /></div>
-                                    <div className={appStyles.mainPanel}><BurgerConstructor setError={setError} /></div>
-                                </main>
-                            </div >
-                            : <Preloader />
-                    }
 
-                </TotalSumContext.Provider>
-            </IngredientsContext.Provider>
+        <ErrorBoundary errorApp={false} >
+            <TotalSumContext.Provider value={{ totalSum, totalSumDispatcher }}>
+                {
+                    itemsRequest && items
+                        ? <Preloader />
+                        : <div className="wrapper">
+                            <AppHeader />
+                            <main className={appStyles.mainContainer}>
+                                <DndProvider backend={HTML5Backend}>
+                                    <div className={appStyles.mainPanel}><BurgerIngredients /></div>
+                                    <div className={appStyles.mainPanel}><BurgerConstructor /></div>
+                                </DndProvider>
+                            </main>
+                        </div >
+                }
+            </TotalSumContext.Provider>
         </ErrorBoundary>
+
     )
 }
 

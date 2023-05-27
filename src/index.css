@@ -63,6 +63,7 @@ main {
   overflow-y: scroll;
   scrollbar-color: #8585AD #2F2F37;
   scrollbar-width: thin;
+  padding-right: 14px;
 
 }
 
@@ -90,6 +91,7 @@ main {
   box-shadow: inset 1px 1px 12px #e665d7;
 
 }
+
 
 .tabsBar {
   display: flex;

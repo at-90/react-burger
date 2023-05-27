@@ -6,6 +6,8 @@
     cursor: pointer;
 }
 
+
+
 .cardImage {
     composes: mx-auto from "../../index.css";
     display: block;
