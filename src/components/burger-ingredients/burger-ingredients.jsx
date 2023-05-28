@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback, useEffect, useContext } from 'react';
+import { useState, useRef, useCallback, useEffect, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import IngredientsList from '../ingredients-list/ingredients-list.jsx';
@@ -7,13 +7,12 @@ import { useInView } from "framer-motion";
 
 const BurgerIngredients = () => {
 
+    const getStoreIngredients = (state => state.ingredients)
+    const { items } = useSelector(getStoreIngredients);
 
-
-    const { items } = useSelector(store => store.ingredients);
-
-    const buns = items.filter(elem => elem.type === 'bun');
-    const sauces = items.filter(elem => elem.type === 'sauce');
-    const fillings = items.filter(elem => elem.type === 'main');
+    const buns = useMemo(() => { return items.filter(elem => elem.type === 'bun'); }, [items])
+    const sauces = useMemo(() => { return items.filter(elem => elem.type === 'sauce'); }, [items])
+    const fillings = useMemo(() => { return items.filter(elem => elem.type === 'main'); }, [items])
 
     const [current, setCurrent] = useState('buns');
 

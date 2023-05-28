@@ -1,5 +1,4 @@
 import { useState, useEffect, useContext, useCallback, useMemo } from 'react';
-import { TotalSumContext } from '../../services/productsContext';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { checkout } from '../../services/actions/order-details';
@@ -14,7 +13,8 @@ import {
     CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useDrop } from 'react-dnd';
-import { addIngredient, CONSTRUCTOR_UPDATE } from '../../services/actions/burger-constructor';
+import { ADD_BUN, ADD_INGREDIENT, CONSTRUCTOR_UPDATE, CONSTRUCTOR_RESET } from '../../services/actions/burger-constructor';
+import uuid from 'react-uuid';
 
 
 
@@ -22,21 +22,45 @@ const BurgerConstructor = () => {
 
     const dispatch = useDispatch();
 
-    const orderList = useSelector(store => store.burgerConstructor.components);
-    const buns = useSelector(store => store.burgerConstructor.buns);
+    const getStoreComponents = (store => store.burgerConstructor.components)
+    const getStoreBuns = (store => store.burgerConstructor.buns)
+    const getStoreTotalSum = (store => store.burgerConstructor.totalSum)
+    const getStoreOrderDetails = (store => store.orderDetails)
+
+
+    const orderList = useSelector(getStoreComponents);
+    const buns = useSelector(getStoreBuns);
+    const totalSum = useSelector(getStoreTotalSum);
+    const orderDetails = useSelector(getStoreOrderDetails);
+
     const bun = buns[0] ?? null;
-    const { totalSum, totalSumDispatcher } = useContext(TotalSumContext);
 
     const cart = useMemo(() => { return [...buns, ...orderList] }, [orderList, buns])
-
-    const orderDetails = useSelector(store => store.orderDetails);
 
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     const [, dropTargetRef] = useDrop({
         accept: "ingredient",
         drop(item) {
-            dispatch(addIngredient(item))
+
+            if (item.type === 'bun') {
+                dispatch({
+                    type: ADD_BUN,
+                    item: {
+                        ...item,
+                        dragId: uuid()
+                    }
+                });
+            } else {
+                dispatch({
+                    type: ADD_INGREDIENT,
+                    item: {
+                        ...item,
+                        dragId: uuid(),
+                    }
+                });
+            }
+
         },
         collect: monitor => ({
             isHover: monitor.isOver(),
@@ -46,10 +70,14 @@ const BurgerConstructor = () => {
 
     const handleModalOpen = () => {
         setIsModalOpen(true)
+
     }
 
     const handleModalClose = () => {
         setIsModalOpen(false)
+        dispatch({
+            type: CONSTRUCTOR_RESET,
+        });
     }
 
     const handleCheckout = () => {
@@ -59,15 +87,16 @@ const BurgerConstructor = () => {
         });
         dispatch(checkout(cart));
         handleModalOpen()
+
     }
 
     useEffect(
         () => {
             let total = 0;
-            orderList.map(item => (total += 1 * item.price));
-            totalSumDispatcher({ type: 'calculate', payload: total });
+            cart.map(item => (total += 1 * item.price));
+            dispatch({ type: 'CONSTRUCTOR_TOTALSUM', totalSum: total });
         },
-        [orderList, totalSumDispatcher, orderDetails]
+        [orderList, buns, orderDetails]
     );
 
     const moveCard = useCallback((dragIndex, hoverIndex) => {
@@ -86,6 +115,7 @@ const BurgerConstructor = () => {
     return (
 
         <div ref={dropTargetRef} className={burgerConstructorStyles.order}>
+
             {(orderList.length || buns.length)
                 ? <>
                     {bun &&
@@ -121,12 +151,13 @@ const BurgerConstructor = () => {
                     <div className={[burgerConstructorStyles.amount, 'pt-10'].join(' ')}>
                         <div className={[burgerConstructorStyles.amountValue, 'mr-10'].join(' ')}>
                             <span className={"text text_type_digits-medium"}>
-                                {totalSum.sum}
+                                {totalSum}
                             </span>
                             <CurrencyIcon type="primary" />
                         </div>
                         <Button htmlType="button" type="primary" size="large" onClick={handleCheckout}>Оформить заказ</Button>
                     </div>
+
                     {isModalOpen && orderDetails.order && <Modal
                         title=""
                         typeModal="big"
@@ -134,6 +165,7 @@ const BurgerConstructor = () => {
                         <OrderDetails order={orderDetails.order.order} />
 
                     </Modal>}
+
                 </>
                 : <div className={burgerConstructorStyles.cta}>Перетащите ингредиенты</div>
             }

@@ -40,17 +40,3 @@ export const ingredientsReducer = (state = ingredientsState, action) => {
 };
 
 
-export const counterReducer = (state = 0, action) => {
-    switch (action.type) {
-        case 'CHECK_INGREDIENTS': {
-            return console.log('888', 888);
-
-        }
-
-        default: {
-            return state
-
-        }
-
-    }
-};

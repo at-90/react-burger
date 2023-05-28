@@ -1,10 +1,11 @@
 import {
-    ADD_INGREDIENT, ADD_BUN, CONSTRUCTOR_REMOVE_ITEM, CONSTRUCTOR_UPDATE
+    ADD_INGREDIENT, ADD_BUN, CONSTRUCTOR_REMOVE_ITEM, CONSTRUCTOR_UPDATE, CONSTRUCTOR_TOTALSUM, CONSTRUCTOR_RESET
 } from "../actions/burger-constructor";
 
 const constructorState = {
     buns: [],
-    components: []
+    components: [],
+    totalSum: 0
 }
 
 export const constructorReducer = (state = constructorState, action) => {
@@ -39,6 +40,18 @@ export const constructorReducer = (state = constructorState, action) => {
                 ...state,
                 components: action.components
             }
+        }
+        case CONSTRUCTOR_TOTALSUM: {
+
+            return {
+                ...state,
+                totalSum: action.totalSum
+            }
+        }
+        case CONSTRUCTOR_RESET: {
+
+            return constructorState
+
         }
 
         default: {

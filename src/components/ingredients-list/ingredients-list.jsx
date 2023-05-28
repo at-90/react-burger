@@ -1,4 +1,5 @@
 import Card from '../card/card';
+import { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { ingredientsTypes } from '../../constants/data-types';
 import styles from './ingredients-list.module.css';
@@ -7,14 +8,23 @@ import { useSelector } from 'react-redux';
 
 const IngredientsList = ({ ingredients }) => {
 
-    const { buns, components } = useSelector(store => store.burgerConstructor);
-    let counts = {};
 
-    buns.length && (counts[buns[0]._id] = 2)
-    components.forEach(elem => {
-        let count = counts[elem._id] ?? 0;
-        counts[elem._id] = 1 * ++count;
-    })
+    const getStoreComponents = (store => store.burgerConstructor.components)
+    const getStoreBuns = (store => store.burgerConstructor.buns)
+
+    const components = useSelector(getStoreComponents);
+    const buns = useSelector(getStoreBuns);
+
+    const ingredientsCounts = useMemo(() => {
+        let counts = {};
+        buns.length && (counts[buns[0]._id] = 2)
+        components.forEach(elem => {
+            let count = counts[elem._id] ?? 0;
+            counts[elem._id] = 1 * ++count;
+        })
+        return counts
+    }, [buns, components])
+
 
     return (
 
@@ -25,7 +35,7 @@ const IngredientsList = ({ ingredients }) => {
                     const { _id } = elem
                     return (
                         < li className="ingredient" key={_id} >
-                            <Card data={elem} count={counts[_id]} />
+                            <Card data={elem} count={ingredientsCounts[_id]} />
                         </li>
                     )
 
