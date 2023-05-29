@@ -1,25 +1,14 @@
-
-/**
- * Отправляет запрос Fetch, 
- * @param {String} url - адрес запроса 
- * @returns {String} промис с данными из запроса 
- */
-export const getDataResource = async (url) => {
-
-    try {
-
-        const res = await fetch(url);
-
-        if (!res.ok) {
-            throw new Error('Ошибка: ' + res.status);
-        }
-        const data = await res.json();
-        return data.data;
+import { API_HOST } from "../constants/api";
 
 
-    } catch (error) {
-        console.log("Не загрузились данные по API. " + error.message);
-        return false;
-    }
-
+const checkResponse = (res) => {
+    return res.ok
+        ? res.json()
+        : res.json().catch(() => { throw new Error('Ошибка: ' + res.status) });
 }
+
+export const request = (url, options) => {
+    return fetch(`${API_HOST}${url}`, options).then(checkResponse);
+}
+
+
