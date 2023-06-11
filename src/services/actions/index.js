@@ -1,0 +1,2 @@
+export const APP_MESSAGE = `APP/APP_MESSAGE`;
+export const CLEAR_APP_MESSAGES = `APP/CLEAR_APP_MESSAGES`;

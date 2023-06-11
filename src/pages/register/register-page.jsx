@@ -1,0 +1,75 @@
+import {Link, useNavigate} from "react-router-dom";
+import {useDispatch, useSelector} from "react-redux";
+import {useEffect, useState} from "react";
+import {
+    Button,
+    EmailInput,
+    Input,
+    PasswordInput,
+} from "@ya.praktikum/react-developer-burger-ui-components";
+import ErrorMessage from "../../components/error/error-message";
+import {registerUser} from "../../services/actions/user";
+import {CLEAR_APP_MESSAGES} from "../../services/actions";
+import {selectAppMessage} from "../../services/selectors/selectors";
+
+const RegisterPage = () => {
+
+    const [user, setUser] = useState({});
+    const error = useSelector(selectAppMessage);
+
+    const dispatch = useDispatch()
+
+    const handleSubmit =(e)=>{
+        e.preventDefault();
+        dispatch(registerUser(user))
+    }
+
+    useEffect(() => {
+        dispatch({
+            type: CLEAR_APP_MESSAGES
+        })
+    }, [])
+
+    return <main className="page">
+        <div className="form-box text-center">
+            <div className="text text_type_main-medium mb-6">Регистрация</div>
+
+            <form onSubmit={handleSubmit}>
+                <Input
+                    type={"text"}
+                    placeholder={"Имя"}
+                    onChange={(e) => setUser({ ...user, name: e.target.value })}
+                    name={"name"}
+                    error={false}
+                    extraClass="mb-6"
+                />
+                <EmailInput
+
+                    onChange={(e) => setUser({ ...user, email: e.target.value })}
+                    name={"email"}
+                    isIcon={false}
+                    extraClass="mb-6"
+                />
+                <PasswordInput
+
+                    onChange={(e) => setUser({ ...user, password: e.target.value })}
+                    name={"password"}
+                    extraClass="mb-6"
+                />
+                {error && <ErrorMessage text={error}/>}
+                <Button
+                    htmlType="submit"
+                    type="primary"
+                    size="medium">
+                    Зарегистрироваться
+                </Button>
+            </form>
+
+            <div className="mt-20 text text_type_main-default text_color_inactive">
+                Уже зарегистрированы? <Link to="/login">Войти</Link>
+            </div>
+        </div>
+    </main>
+}
+
+export default RegisterPage

@@ -2,13 +2,14 @@ import { useState, useRef, useCallback, useEffect, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import IngredientsList from '../ingredients-list/ingredients-list.jsx';
+import {selectIngredients} from "../../services/selectors/selectors";
 import burgerIngredientsStyles from './burger-ingredients.module.css';
 import { useInView } from "framer-motion";
 
 const BurgerIngredients = () => {
 
-    const getStoreIngredients = (state => state.ingredients)
-    const { items } = useSelector(getStoreIngredients);
+
+    const { items } = useSelector(selectIngredients);
 
     const buns = useMemo(() => { return items.filter(elem => elem.type === 'bun'); }, [items])
     const sauces = useMemo(() => { return items.filter(elem => elem.type === 'sauce'); }, [items])

@@ -15,12 +15,15 @@ import {
 import { useDrop } from 'react-dnd';
 import { ADD_BUN, ADD_INGREDIENT, CONSTRUCTOR_UPDATE, CONSTRUCTOR_RESET } from '../../services/actions/burger-constructor';
 import uuid from 'react-uuid';
+import {useNavigate} from "react-router-dom";
 
 
 
 const BurgerConstructor = () => {
 
     const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const isLoggedIn = useSelector(state => state.user.isLoggedIn);
 
     const getStoreComponents = (store => store.burgerConstructor.components)
     const getStoreBuns = (store => store.burgerConstructor.buns)
@@ -81,13 +84,12 @@ const BurgerConstructor = () => {
     }
 
     const handleCheckout = () => {
-
-        dispatch({
-            type: ORDER_DETAILS_RESET
-        });
-        dispatch(checkout(cart));
-        handleModalOpen()
-
+        if(isLoggedIn){
+            dispatch({type: ORDER_DETAILS_RESET});
+            dispatch(checkout(cart));
+            handleModalOpen();
+        }else{
+            navigate('/login')}
     }
 
     useEffect(
