@@ -166,7 +166,9 @@ export const registerUser = (data) => {
 
 			})
 			.catch((e)=> {
-				dispatch({type: REGISTER_FAILED, error: e.message})} )
+				dispatch({type: REGISTER_FAILED, error: e.message})
+				dispatch({type: APP_MESSAGE, message: e.message})
+			} )
 	}
 }
 
