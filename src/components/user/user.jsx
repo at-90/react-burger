@@ -42,7 +42,7 @@ const User = () => {
     return <div className="form-box">
         <form onSubmit={handlerSubmit} >
             <Input
-                value = {state.name}
+                value = {state.name || ''}
                 onChange = {handleInputChange}
                 type={'text'}
                 placeholder={'Имя'}
@@ -53,13 +53,13 @@ const User = () => {
                 extraClass="mb-6"
             />
             <EmailInput
-                value = {state.email}
+                value = {state.email  || ''}
                 onChange = {handleInputChange}
                 name={'email'}
                 isIcon={false}
             />
             <PasswordInput
-                value = {state.password}
+                value = {state.password || ''}
                 defaultValue={defaultPwd}
                 onChange = {handleInputChange}
                 name={"password"}
@@ -68,7 +68,11 @@ const User = () => {
                 extraClass="mt-6"
             />
             <div className={`mt-6 ${styles.profile__buttons}`}>
-                <Button htmlType="submit" type="primary" size="medium">
+                <Button
+                    htmlType="submit"
+                    type="primary"
+                    size="medium"
+                disabled={false}>
                     Сохранить
                 </Button>
                 <Button

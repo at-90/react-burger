@@ -18,9 +18,6 @@ const ForgotPasswordPage = () => {
     const dispatch = useDispatch();
 
     const [email, setEmail] = useState('');
-
-
-
     const handleSubmit =(e)=>{
         e.preventDefault();
         isEmailValid(email) &&  dispatch(recoveryPwd(email))
@@ -37,6 +34,7 @@ const ForgotPasswordPage = () => {
                     name={"email"}
                     isIcon={false}
                     extraClass="mb-6"
+                    value = {email || ''}
                 />
                 <Button
                     htmlType="submit"

@@ -41,6 +41,7 @@ const ResetPasswordPage = () => {
                     extraClass="mb-6"
                     placeholder={"Введите новый пароль"}
                     onChange={(e) => setNewPwd({ ...newPwd, password: e.target.value })}
+                    value={''}
                 />
                 <Input
                     type={"text"}
@@ -48,6 +49,7 @@ const ResetPasswordPage = () => {
                     name="token"
                     extraClass="mb-6"
                     onChange={(e) => setNewPwd({ ...newPwd, token: e.target.value })}
+                    value={''}
                 />
                 {error && <ErrorMessage text={error}/>}
                 <Button

@@ -1,17 +1,13 @@
 import {useSelector} from "react-redux";
 import { Navigate } from "react-router-dom";
-import Preloader from "../preloader/preloader";
-import {getCookie} from "../../utils/cookie";
+import {selectUser} from "../../services/selectors/selectors";
+
 
 const ProtectedRouteElement = ({ element} ) => {
-    const user = useSelector(state => state.user.user );
-    const isLoggedIn = getCookie('atoken');
-
-    if(!!isLoggedIn && !!user){
+    const user = useSelector(selectUser);
+    if(user) {
         return element
     }
-
-
     return <Navigate to={'/login'}/>
 }
 

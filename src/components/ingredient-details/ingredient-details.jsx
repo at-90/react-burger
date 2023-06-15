@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom";
 import styles from './ingredient-details.module.css';
 
 const IngredientDetails = ({ingredients}) => {
-
+    console.log(ingredients)
     const { ingredientId } = useParams();
 
     const ingredientInfo = useMemo(() => {
@@ -52,7 +52,7 @@ const IngredientDetails = ({ingredients}) => {
 
 
 IngredientDetails.propTypes = {
-    data: ingredientsTypes.isRequired
+    ingredients: PropTypes.arrayOf(ingredientsTypes).isRequired
 }
 
 export default IngredientDetails

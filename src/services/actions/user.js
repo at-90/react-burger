@@ -82,7 +82,6 @@ export const loginUser = (loginData) => {
 				}
 				if (res && !res.success) {
 					dispatch({type: LOGIN_FAILED, error:  res.message})
-
 				}
 
 			})
@@ -193,7 +192,7 @@ export const updateUser = (data) =>{
 			.then(res => {
 
 				if (res && res.success) {
-					console.log('Новый пользователь', res.user)
+
 					let authToken = res.accessToken.split('Bearer ')[1];
 					if (authToken) {
 						setCookie('atoken', authToken);
@@ -314,7 +313,7 @@ export const getApiUser = ()=>{
 			.then(res => {
 
 				if (res && res.success) {
-					console.log('Загрузили личные данные', res.user)
+
 					let authToken = res.accessToken.split('Bearer ')[1];
 					if (authToken) {
 						setCookie('atoken', authToken);

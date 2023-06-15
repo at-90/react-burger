@@ -36,28 +36,38 @@ const RegisterPage = () => {
 
             <form onSubmit={handleSubmit}>
                 <Input
+                    value={user.name || ''}
                     type={"text"}
                     placeholder={"Имя"}
                     onChange={(e) => setUser({ ...user, name: e.target.value })}
                     name={"name"}
                     error={false}
                     extraClass="mb-6"
+
                 />
                 <EmailInput
-
+                    value={user.email || ''}
                     onChange={(e) => setUser({ ...user, email: e.target.value })}
                     name={"email"}
                     isIcon={false}
                     extraClass="mb-6"
+
                 />
                 <PasswordInput
-
+                    value={user.password || ''}
                     onChange={(e) => setUser({ ...user, password: e.target.value })}
                     name={"password"}
                     extraClass="mb-6"
                 />
                 {error && <ErrorMessage text={error}/>}
                 <Button
+                    disabled={
+                        user.name !==''  &&
+                        user.email !==''  &&
+                        user.password !==''
+                            ? false
+                            : true
+                    }
                     htmlType="submit"
                     type="primary"
                     size="medium">

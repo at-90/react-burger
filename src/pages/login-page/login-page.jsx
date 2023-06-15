@@ -40,13 +40,13 @@ const LoginPage = () => {
                     name="email"
                     isIcon={false}
                     extraClass="mb-6"
-                    value={user.email}
+                    value={user.email || ''}
                     onChange={(e) => setUser({ ...user, email: e.target.value })}
                 />
                 <PasswordInput
                     name="password"
                     extraClass="mb-6"
-                    value={user.password}
+                    value={user.password || ''}
                     onChange={(e) => setUser({ ...user, password: e.target.value })}
                 />
                 {error && <ErrorMessage text={error}/>}
@@ -54,7 +54,12 @@ const LoginPage = () => {
                     htmlType="submit"
                     type="primary"
                     size="medium"
-                >
+                    disabled={
+                        user.email !==''  &&
+                        user.password !==''
+                            ? false
+                            : true
+                    }>
                     Войти
                 </Button>
             </form>
