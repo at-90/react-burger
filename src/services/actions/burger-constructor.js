@@ -1,5 +1,3 @@
-import uuid from 'react-uuid';
-
 export const ADD_INGREDIENT = "ADD_INGREDIENT";
 export const ADD_BUN = "ADD_BUN";
 export const CONSTRUCTOR_REMOVE_ITEM = 'CONSTRUCTOR_REMOVE_ITEM';

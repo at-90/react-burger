@@ -1,39 +1,68 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import {  Routes, Route, useLocation, useNavigate} from 'react-router-dom';
 import ErrorBoundary from '../error/error-boundary';
 import Preloader from '../preloader/preloader';
 import AppHeader from '../app-header/app-header';
+import { routesPrivate, routesPublic } from '../../routes/routes';
 import { getApiIngredients } from '../../services/actions/burger-ingredients';
-import { HTML5Backend } from "react-dnd-html5-backend";
-import { DndProvider } from "react-dnd";
-import BurgerIngredients from '../burger-ingredients/burger-ingredients';
-import BurgerConstructor from '../burger-constructor/burger-constructor';
-import appStyles from './app.module.css';
+import {selectIngredients} from "../../services/selectors/selectors";
+import IngredientDetails from "../ingredient-details/ingredient-details";
+import Modal from "../modal/modal";
 
 const App = () => {
 
     const dispatch = useDispatch();
-    const { itemsRequest, items } = useSelector(store => store.ingredients)
+    const { itemsRequest, items : ingredients } = useSelector(selectIngredients);
+
+    const location = useLocation();
+    const navigate = useNavigate();
+    let background = location.state && location.state.background;
 
     useEffect(() => { dispatch(getApiIngredients()) }, [dispatch])
 
+    const closeModal = () => { navigate(-1)};
+
     return (
 
-        <ErrorBoundary errorApp={false} >
-            {
-                itemsRequest && items
-                    ? <Preloader />
-                    : <div className="wrapper">
-                        <AppHeader />
-                        <main className={appStyles.mainContainer}>
-                            <DndProvider backend={HTML5Backend}>
-                                <div className={appStyles.mainPanel}><BurgerIngredients /></div>
-                                <div className={appStyles.mainPanel}><BurgerConstructor /></div>
-                            </DndProvider>
-                        </main>
-                    </div >
-            }
-        </ErrorBoundary>
+            <ErrorBoundary errorApp={false} >
+                {
+                    itemsRequest && ingredients
+                        ? <Preloader />
+                        : <div className="wrapper">
+                            <AppHeader />
+                            <Routes location={background || location}>
+                                {routesPublic.map(elem => <Route path={elem.path} element={elem.element} key={elem.path} />)}
+                                {routesPrivate.map((elem) => {
+                                    return (elem.hasOwnProperty('leftMenu')
+                                        ?
+                                        <Route path={elem.path} element={elem.element} key={elem.path} >
+                                            {elem.leftMenu.map(item => <Route path={item.path} element={item.element} key={item.path} />)}
+                                        </Route>
+                                        : <Route path={elem.path} element={elem.element} key={elem.path} />
+                                    )
+                                })
+                                }
+                                currentIngredient &&
+                                <Route path='/ingredients/:ingredientId' element={<IngredientDetails ingredients = {ingredients}/>} />
+                            </Routes>
+
+                            {(background && ingredients) &&
+                                <Routes>
+                                    <Route
+                                        path='/ingredients/:ingredientId'
+                                        element={
+
+                                            <Modal closeModal={closeModal}  >
+                                                <IngredientDetails ingredients = {ingredients}/>
+                                            </Modal>
+                                        }
+                                    />
+                                </Routes>
+                            }
+                        </div >
+                }
+            </ErrorBoundary>
 
     )
 }

@@ -1,0 +1,36 @@
+.profileContainer {
+    composes: baseContainer from "../../index.css";
+    composes: mx-auto from "../../index.css";
+    display: flex;
+    justify-content: space-between;
+    gap: 60px;
+}
+
+.leftMenu {
+    flex: 1 0 auto;
+    max-width: 320px;
+    max-height: 80vh;
+    background-color: transparent;
+}
+
+.leftMenu__item {
+    padding: 18px 0
+}
+
+.leftMenu__link{
+    color: var(--text-inactive-color);
+    font-family: 'Jet Brains Mono';
+    font-weight: bold;
+    font-size: 24px;
+    line-height: 1.25;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    padding: 0;
+}
+
+
+.profileContent {
+    flex: 1 0 auto;
+    background-color: #141414;
+}

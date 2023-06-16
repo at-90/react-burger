@@ -7,7 +7,7 @@ import modalStyles from './modal.module.css';
 
 const modalRoot = document.querySelector("#modal");
 
-const Modal = ({ title, closeModal, children, typeModal }) => {
+const Modal = ({ title,   children, typeModal , closeModal}) => {
 
     const modalConentStyles = typeModal === 'big' ? 'pt-10 pr-10 pl-10 pb-30' : 'pt-10 pr-10 pl-10 pb-15';
 
@@ -15,22 +15,24 @@ const Modal = ({ title, closeModal, children, typeModal }) => {
 
     const handleKeyDown = (e) => {
         if (e.key === 'Escape') {
-            closeModal(false);
+            closeModal();
         }
     }
 
     const handleModalClose = (e) => {
-        closeModal(false);
+
+        closeModal();
     };
 
     useEffect(() => {
+
         overlayRef.current.focus();
     }, [])
 
 
     return createPortal(
         <>
-            <ModalOverlay closeModal={handleModalClose} onClick={closeModal} >
+            <ModalOverlay  onClick={closeModal} >
                 <div className={modalStyles.modal} onClick={(e) => { e.stopPropagation() }} ref={overlayRef} tabIndex={-1} onKeyDown={handleKeyDown}>
                     <div className={[modalStyles.modalHeader, 'pt-10 pr-7 pl-10'].join(' ')}>
                         <h2 className="text text_type_main-large">{title}</h2>

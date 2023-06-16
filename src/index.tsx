@@ -4,6 +4,7 @@ import './index.css';
 import { compose, createStore, applyMiddleware } from 'redux';
 import { rootReducer } from './services/reducers';
 import { Provider } from 'react-redux';
+import {BrowserRouter} from 'react-router-dom';
 import App from './components/app/app';
 import reportWebVitals from './reportWebVitals';
 import thunk from 'redux-thunk';
@@ -24,7 +25,9 @@ const root = ReactDOM.createRoot(
 root.render(
 
   <Provider store={store}>
-    <App />
+      <BrowserRouter>
+            <App />
+      </BrowserRouter>
   </Provider>
 
 );

@@ -1,6 +1,11 @@
 .details {
     composes: mx-auto from "../../index.css";
     max-width: 520px;
+    height:100%;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .detailsImage {

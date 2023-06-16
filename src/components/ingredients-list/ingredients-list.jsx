@@ -4,16 +4,13 @@ import PropTypes from 'prop-types';
 import { ingredientsTypes } from '../../constants/data-types';
 import styles from './ingredients-list.module.css';
 import { useSelector } from 'react-redux';
+import {selectComponents, selectBuns} from "../../services/selectors/selectors";
 
 
 const IngredientsList = ({ ingredients }) => {
 
-
-    const getStoreComponents = (store => store.burgerConstructor.components)
-    const getStoreBuns = (store => store.burgerConstructor.buns)
-
-    const components = useSelector(getStoreComponents);
-    const buns = useSelector(getStoreBuns);
+    const components = useSelector(selectComponents);
+    const buns = useSelector(selectBuns);
 
     const ingredientsCounts = useMemo(() => {
         let counts = {};
@@ -34,11 +31,10 @@ const IngredientsList = ({ ingredients }) => {
                 ingredients.map((elem) => {
                     const { _id } = elem
                     return (
-                        < li className="ingredient" key={_id} >
+                        <li className="ingredient" key={_id} >
                             <Card data={elem} count={ingredientsCounts[_id]} />
                         </li>
                     )
-
                 })
             }
 

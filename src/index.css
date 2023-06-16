@@ -13,6 +13,11 @@ body {
   scroll-behavior: smooth;
 }
 
+a {
+  color:#FFFFFF;
+  text-decoration: none;
+}
+
 ul,
 li {
   padding: 0;
@@ -48,6 +53,31 @@ main {
   width: 100%;
   max-width: 1240px;
 }
+
+.page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mainContainer {
+  width: 100%;
+  max-width: 1240px;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  justify-content: space-between;
+  gap: 40px;
+}
+
+.mainPanel {
+  flex: 1 0 auto;
+  max-width: 50%;
+  max-height: 80vh;
+  background-color: transparent;
+
+}
+
 
 .errorPage {
   height: 100vh;
@@ -124,4 +154,8 @@ main {
 .mx-auto {
   margin-left: auto;
   margin-right: auto;
+}
+
+.text-center {
+  text-align: center;
 }

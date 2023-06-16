@@ -1,10 +1,8 @@
-import { useState } from 'react';
-import Modal from '../modal/modal';
 import { useDispatch } from 'react-redux';
-import IngredientDetails from '../ingredient-details/ingredient-details';
 import PropTypes from 'prop-types';
 import { ingredientsTypes } from '../../constants/data-types';
 import { INGREDIENT_DETAILS_SET } from '../../services/actions/ingredients-details';
+import { Link, useLocation } from "react-router-dom";
 import styles from './card.module.css';
 import {
     CurrencyIcon, Counter
@@ -13,8 +11,11 @@ import { useDrag } from "react-dnd";
 
 const Card = ({ data, count }) => {
 
+    const location = useLocation();
+    const ingredientId = data['_id'];
+
     const { name, image, price } = data;
-    const [isModalOpen, setIsModalOpen] = useState(false);
+
     const dispatch = useDispatch()
 
     const [{ opacity, isDrag }, dragRef] = useDrag({
@@ -27,20 +28,21 @@ const Card = ({ data, count }) => {
     })
 
     const handleModalOpen = () => {
-        setIsModalOpen(true);
-        dispatch({
+
+          dispatch({
             type: INGREDIENT_DETAILS_SET,
             item: data
         })
+
     }
 
-    const handleModalClose = () => {
-        setIsModalOpen(false)
-    }
-
-    return (
-        <>
-            <article ref={dragRef} className={styles.card} onClick={handleModalOpen}  >
+    return <Link
+            key={ingredientId}
+            to ={`/ingredients/${ingredientId}`}
+            state = {{ background: location }}
+            ref={dragRef}
+            onClick={handleModalOpen}>
+            <article  className={styles.card} >
                 {count > 0 && <Counter count={count} />}
                 <img className={styles.cardImage} src={image} alt={1} />
                 <div className={styles.cardPrice}>
@@ -49,13 +51,7 @@ const Card = ({ data, count }) => {
                 </div>
                 <p className="text text_type_main-default">{name}</p>
             </article>
-            {isModalOpen && (<Modal
-                title="Детали ингредиента"
-                closeModal={handleModalClose}>
-                <IngredientDetails data={data} />
-            </Modal>)}
-        </>
-    )
+        </Link>
 }
 
 

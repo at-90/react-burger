@@ -1,13 +1,26 @@
 import PropTypes from 'prop-types';
+import {useMemo} from "react";
 import { ingredientsTypes } from '../../constants/data-types';
+import { useParams } from "react-router-dom";
 import styles from './ingredient-details.module.css';
 
-const IngredientDetails = ({ data }) => {
+const IngredientDetails = ({ingredients}) => {
+    console.log(ingredients)
+    const { ingredientId } = useParams();
 
-    const ingredientInfo = data;
+    const ingredientInfo = useMemo(() => {
+        return ingredients.find((elem) => elem._id === ingredientId);
+    }, [ingredients, ingredientId]);
+
+    if (!ingredientInfo) {
+
+        return null;
+    }
+
 
     return (
 
+        ingredientInfo &&
         <div className={`${styles.details}`}>
             <div className={`ml-5 mr-5 mb-4 ${styles.detailsImage}`}>
                 <img src={ingredientInfo.image_large} alt={ingredientInfo.name} />
@@ -34,13 +47,12 @@ const IngredientDetails = ({ data }) => {
                 </dl>
             </div>
         </div>
-
     )
 }
 
 
 IngredientDetails.propTypes = {
-    data: ingredientsTypes.isRequired
+    ingredients: PropTypes.arrayOf(ingredientsTypes).isRequired
 }
 
 export default IngredientDetails
