@@ -16,7 +16,7 @@ const AppHeader = () => {
                     <NavLink to="/" className={({ isActive })=>isActive ? `${headerStyles.menuLink} ${headerStyles.menuLink_active} ` : headerStyles.menuLink}><BurgerIcon type={'primary'}/>
                         <span className='text text_type_main-default'>Конструктор</span>
                     </NavLink>
-                    <NavLink to="/orders" className={({ isActive })=>isActive ? `${headerStyles.menuLink} ${headerStyles.menuLink_active} ` : headerStyles.menuLink}><ListIcon type={'secondary'}/>
+                    <NavLink to="/feed" className={({ isActive })=>isActive ? `${headerStyles.menuLink} ${headerStyles.menuLink_active} ` : headerStyles.menuLink}><ListIcon type={'secondary'}/>
                         <span className='text text_type_main-default'>Лента заказов</span>
                     </NavLink>
                 </div>

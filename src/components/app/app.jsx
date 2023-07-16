@@ -9,6 +9,7 @@ import { getApiIngredients } from '../../services/actions/burger-ingredients';
 import {selectIngredients} from "../../services/selectors/selectors";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import Modal from "../modal/modal";
+import OrderCompositionPage from "../../pages/order-composition-page/order-composition-page";
 
 const App = () => {
 
@@ -45,6 +46,18 @@ const App = () => {
                                 }
                                 currentIngredient &&
                                 <Route path='/ingredients/:ingredientId' element={<IngredientDetails ingredients = {ingredients}/>} />
+                                <Route
+                                    path='/feed/:id'
+                                    element={
+                                            <OrderCompositionPage/>
+                                    }
+                                />
+                                <Route
+                                    path='/profile/orders/:id'
+                                    element={
+                                        <OrderCompositionPage/>
+                                    }
+                                />
                             </Routes>
 
                             {(background && ingredients) &&
@@ -58,6 +71,23 @@ const App = () => {
                                             </Modal>
                                         }
                                     />
+                                    <Route
+                                        path="/feed/:id"
+                                        element={
+                                            <Modal title="Детали заказа" closeModal={closeModal}>
+                                                <OrderCompositionPage/>
+                                            </Modal>
+                                        }
+                                    />
+                                    <Route
+                                        path='/profile/orders/:id'
+                                        element={
+                                            <Modal title="Детали заказа" closeModal={closeModal}>
+                                                <OrderCompositionPage/>
+                                            </Modal>
+                                        }
+                                    />
+
                                 </Routes>
                             }
                         </div >

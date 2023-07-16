@@ -4,11 +4,13 @@ import { constructorReducer } from './burger-constructor';
 import { currentIngredientReducer } from './ingredients-details';
 import { orderReducer } from './order-details';
 import { userReducer } from './user';
-import {APP_MESSAGE, CLEAR_APP_MESSAGES} from "../actions";
+import {APP_MESSAGE, CLEAR_APP_MESSAGES, TAppActions} from "../actions";
+import {wsReducer} from "./ws";
+import {wsProfileReducer} from "./ws-profile";
 
 const appState = {message: ''}
 
-export const appReducer =(state=appState, action:any) =>{
+export const appReducer =(state=appState, action:TAppActions) =>{
     switch (action.type){
 
         case APP_MESSAGE: {
@@ -37,5 +39,7 @@ export const rootReducer = combineReducers({
     burgerConstructor: constructorReducer,
     currentIngredient: currentIngredientReducer,
     orderDetails: orderReducer,
-    user: userReducer
+    user: userReducer,
+    server: wsReducer,
+    profile: wsProfileReducer
 })

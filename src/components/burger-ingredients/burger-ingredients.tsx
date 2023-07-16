@@ -1,5 +1,5 @@
 import React, { useState, useRef, useCallback, useEffect, useMemo } from 'react';
-import { useSelector } from 'react-redux';
+import { useAppSelector } from '../../hooks/hooks';
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import IngredientsList from '../ingredients-list/ingredients-list';
 import {selectIngredients} from "../../services/selectors/selectors";
@@ -11,13 +11,12 @@ type TIngredient = {
     type:string;
     price:  number;
     dragId: number
-
 }
 
 const BurgerIngredients = () => {
 
 
-    const { items } = useSelector(selectIngredients);
+    const { items } = useAppSelector(selectIngredients);
 
 
     const buns = useMemo(() => { return items.filter((elem: TIngredient) => elem.type === 'bun'); }, [items])

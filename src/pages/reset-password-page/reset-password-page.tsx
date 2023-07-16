@@ -10,11 +10,14 @@ import {
 import ErrorMessage from "../../components/error/error-message";
 import {saveNewPwd} from "../../services/actions/user";
 import {selectAppMessage, selectIsEmailSend, selectUserError} from "../../services/selectors/selectors";
+import {useAppDispatch} from "../../hooks/hooks";
+
+export type TNewPwd = {password: string; token: string}
 
 const ResetPasswordPage = () => {
     const error = useSelector(selectAppMessage);
-    const dispatch: React.Dispatch<any> = useDispatch();
-    const [newPwd, setNewPwd] = useState({});
+    const dispatch = useAppDispatch();
+    const [newPwd, setNewPwd] = useState<TNewPwd>({password: '', token: ''});
 
     const navigate = useNavigate();
     const isEmailSend = useSelector(selectIsEmailSend);

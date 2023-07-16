@@ -1,7 +1,6 @@
 import { API_HOST, REFRESH_TOKEN } from "../constants/api";
 import { getLocalStorage, setLocalStorage } from "./localStorage";
 import { getCookie, setCookie } from "./cookie";
-import { LOGIN_SUCCESS } from "../services/actions/user";
 
 
 const checkResponse = (res: Response) => {
@@ -13,6 +12,7 @@ const checkResponse = (res: Response) => {
 export const request = (url: string, options?: RequestInit) => {
     return fetch(`${API_HOST}${url}`, options).then(checkResponse);
 }
+
 
 export const refreshTokenRequest = () => {
     return fetch(REFRESH_TOKEN, {

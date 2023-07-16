@@ -11,10 +11,22 @@ import {
     SAVE_NEW_PWD_FAILED,
     GET_USER_INFO_SUCCESS,
     GET_USER_INFO_FAILED,
-    UPDATE_PERSONAL_INFO_SUCCESS
+    UPDATE_PERSONAL_INFO_SUCCESS, TUsersActions
 } from "../actions/user";
+import {TUser} from "../../constants/types";
 
-const userState = {
+export type TUserState = {
+    user: TUser | null;
+    loginRequest: boolean;
+    loginError: boolean;
+    registerRequest: boolean;
+    registerError: boolean;
+    isLoggedIn:boolean;
+    isEmailSend: boolean;
+    error: string
+}
+
+const userState: TUserState = {
     user: null,
     loginRequest: false,
     loginError: false,
@@ -25,7 +37,7 @@ const userState = {
     error:''
 }
 
-export const userReducer = (state = userState, action:any) => {
+export const userReducer = (state = userState, action:TUsersActions) => {
     switch (action.type) {
 
         case LOGIN_REQUEST: {

@@ -2,13 +2,22 @@ import {
     ADD_INGREDIENT, ADD_BUN, CONSTRUCTOR_REMOVE_ITEM, CONSTRUCTOR_UPDATE, CONSTRUCTOR_TOTALSUM, CONSTRUCTOR_RESET
 } from "../actions/burger-constructor";
 
-const constructorState = {
+import {TBurgerConstructorActions} from '../actions/burger-constructor'
+import {TIngredient} from "../../constants/types";
+
+type TConstructorState = {
+    buns:  Array<TIngredient | null | undefined>,
+    components: Array<TIngredient | null | undefined>,
+    totalSum: number
+}
+
+const constructorState:TConstructorState  = {
     buns: [],
     components: [],
     totalSum: 0
 }
 
-export const constructorReducer = (state = constructorState, action:any) => {
+export const constructorReducer = (state = constructorState, action:TBurgerConstructorActions): TConstructorState => {
     switch (action.type) {
 
         case ADD_INGREDIENT: {

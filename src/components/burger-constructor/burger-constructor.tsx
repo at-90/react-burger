@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext, useCallback, useMemo } from 'react';
-import PropTypes from 'prop-types';
-import { useDispatch, useSelector } from 'react-redux';
+import { useAppSelector } from '../../hooks/hooks';
+import { useDispatch } from 'react-redux';
 import { checkout } from '../../services/actions/order-details';
 import { ORDER_DETAILS_RESET } from '../../services/actions/order-details';
 import Modal from "../modal/modal";
@@ -16,6 +16,7 @@ import { useDrop } from 'react-dnd';
 import { ADD_BUN, ADD_INGREDIENT, CONSTRUCTOR_UPDATE, CONSTRUCTOR_RESET } from '../../services/actions/burger-constructor';
 import uuid from 'react-uuid';
 import {useNavigate} from "react-router-dom";
+import {RootState, AppDispatch} from "../../constants/types";
 
 type TIngredientDragType = {
     id: string;
@@ -30,25 +31,23 @@ type TIngredient = {
     price: number;
     image: string;
     dragId: number;
-
 }
 
 const BurgerConstructor = () => {
 
-    const dispatch = useDispatch();
+    const dispatch: AppDispatch = useDispatch();
     const navigate = useNavigate();
-    const isLoggedIn = useSelector((store:any)  => store.user.isLoggedIn);
+    const isLoggedIn = useAppSelector((store: RootState )  => store.user.isLoggedIn);
 
-    const getStoreComponents = ((store:any) => store.burgerConstructor.components)
-    const getStoreBuns = ((store:any) => store.burgerConstructor.buns)
-    const getStoreTotalSum = ((store:any) => store.burgerConstructor.totalSum)
-    const getStoreOrderDetails = ((store:any) => store.orderDetails)
+    const getStoreComponents = ((store: RootState) => store.burgerConstructor.components)
+    const getStoreBuns = ((store: RootState) => store.burgerConstructor.buns)
+    const getStoreTotalSum = ((store: RootState) => store.burgerConstructor.totalSum)
+    const getStoreOrderDetails = ((store: RootState) => store.orderDetails)
 
-
-    const orderList = useSelector(getStoreComponents);
-    const buns = useSelector(getStoreBuns);
-    const totalSum = useSelector(getStoreTotalSum);
-    const orderDetails = useSelector(getStoreOrderDetails);
+    const orderList = useAppSelector(getStoreComponents);
+    const buns = useAppSelector(getStoreBuns);
+    const totalSum = useAppSelector(getStoreTotalSum);
+    const orderDetails = useAppSelector(getStoreOrderDetails);
 
     const bun = buns[0] ?? null;
 
@@ -100,7 +99,7 @@ const BurgerConstructor = () => {
     const handleCheckout = () => {
         if(isLoggedIn){
             dispatch({type: ORDER_DETAILS_RESET});
-            dispatch<any>(checkout(cart));
+            dispatch(checkout(cart));
             handleModalOpen();
         }else{
             navigate('/login')}
@@ -146,7 +145,7 @@ const BurgerConstructor = () => {
 
                     <div className="scrollList scrollList-short mt-4 mb-4 pr-2 nmr-4">
                         <div className={burgerConstructorStyles.orderList}>
-                            {orderList.map((elem: TIngredient, index: number) => {
+                            {orderList.map((elem: any, index: number) => {
                                 return <DraggableItem item={elem} key={elem.dragId} index={index} moveCard={moveCard} />
                             })
                             }

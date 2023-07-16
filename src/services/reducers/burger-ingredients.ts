@@ -1,11 +1,23 @@
-import { GET_ITEMS_REQUEST, GET_ITEMS_SUCCESS, GET_ITEMS_FAILED } from '../actions/burger-ingredients';
+import {
+    GET_ITEMS_REQUEST,
+    GET_ITEMS_SUCCESS,
+    GET_ITEMS_FAILED,
+    TBurgerIngredientsActions
+} from '../actions/burger-ingredients';
+import {TIngredient} from "../../constants/types";
 
-const ingredientsState = {
+type TingredientsState = {
+    items: Array<TIngredient | null>,
+    itemsRequest: boolean,
+    itemsFailed: boolean,
+}
+
+const ingredientsState:TingredientsState = {
     items: [],
     itemsRequest: false,
     itemsFailed: false,
 }
-export const ingredientsReducer = (state = ingredientsState, action:any) => {
+export const ingredientsReducer = (state = ingredientsState, action:TBurgerIngredientsActions) => {
     switch (action.type) {
         case GET_ITEMS_REQUEST: {
             return {
