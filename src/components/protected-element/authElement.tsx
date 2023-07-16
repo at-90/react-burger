@@ -12,7 +12,7 @@ const AuthElement :React.FC<TChildElement>= ({element}) => {
 	const location = useLocation();
 	const { from } = location.state || { from: { pathname: "/" } };
 
-	const user = useAppSelector((state ) => state.user.user );
+	const {user} = useAppSelector((state ) => state.user  );
 	const isLoggedIn = getCookie('atoken');
 
 	return !!isLoggedIn && !!user ? <Navigate to={from}  replace={true}/> : element

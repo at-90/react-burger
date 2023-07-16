@@ -1,12 +1,15 @@
 import {
-    ORDER_DETAILS_REQUEST, ORDER_DETAILS_FAILED, ORDER_DETAILS_SUCCESS, ORDER_DETAILS_RESET, TOrderDetailsActions,
+    ORDER_DETAILS_REQUEST,
+    ORDER_DETAILS_FAILED,
+    ORDER_DETAILS_SUCCESS,
+    ORDER_DETAILS_RESET,
+    TOrderDetailsActions,
+    CURRENT_ORDER_DETAILS_SUCCESS,
 } from "../actions/order-details";
 import {TIngredient} from "../../constants/types";
 
 export type TOrderDetailsReducerOrder = {
-    success: boolean;
-    name: string;
-    order: {
+
         ingredients: Array<string>;
         _id: string;
         owner: {
@@ -21,11 +24,11 @@ export type TOrderDetailsReducerOrder = {
         updatedAt: string;
         number: number;
         price: number;
-        }
+
 }
 
 export type TOrderDetailsState = {
-    order: Array<TIngredient>| null;
+    order: Array<TIngredient>| null | any;
     isLoading: boolean;
     hasError: boolean;
     currentOrder: TOrderDetailsReducerOrder  | null
@@ -55,6 +58,14 @@ export const orderReducer = (state = orderState, action:TOrderDetailsActions): T
                 order: action.order,
             }
         }
+        case CURRENT_ORDER_DETAILS_SUCCESS: {
+                    return {
+                        ...state,
+                        isLoading: false,
+                        hasError: false,
+                        currentOrder: action.order,
+                    }
+                }
 
         case ORDER_DETAILS_FAILED: {
             return {

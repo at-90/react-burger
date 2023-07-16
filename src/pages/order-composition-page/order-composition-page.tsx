@@ -34,7 +34,7 @@ const OrderCompositionPage = () => {
 
     const {items : ingredients} = useAppSelector(selectIngredients);
 
-    const currentOrder = useAppSelector((state) => state.orderDetails.currentOrder?.order);
+    const {currentOrder} = useAppSelector((state) => state.orderDetails);
 
     useEffect(() => {
         if (currentOrder) {
@@ -104,7 +104,7 @@ const OrderCompositionPage = () => {
 
     useEffect(() => {
         if (id) {
-            dispatch(getOrder(id));
+            dispatch<any>(getOrder(id));
         }
     }, [id]);
 

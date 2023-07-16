@@ -22,7 +22,7 @@ type TUser = {
 
 const RegisterPage = () => {
 
-    const [user, setUser] = useState<TUser>({name:'',email:''});
+    const [user, setUser] = useState({name:'',email:'', password:''});
     const error = useSelector(selectAppMessage);
 
     const dispatch:React.Dispatch<any> = useDispatch()

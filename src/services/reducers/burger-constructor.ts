@@ -3,11 +3,11 @@ import {
 } from "../actions/burger-constructor";
 
 import {TBurgerConstructorActions} from '../actions/burger-constructor'
-import {TIngredient} from "../../constants/types";
+import {TDragIngredient, TIngredient} from "../../constants/types";
 
 type TConstructorState = {
-    buns:  Array<TIngredient | null | undefined>,
-    components: Array<TIngredient | null | undefined>,
+    buns:  Array<TDragIngredient  >,
+    components: Array<TDragIngredient >,
     totalSum: number
 }
 

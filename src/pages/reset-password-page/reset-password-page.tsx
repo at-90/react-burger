@@ -31,7 +31,8 @@ const ResetPasswordPage = () => {
     useEffect(()=>{
         !isEmailSend && navigate('/', {replace: true});
         dispatch({
-            type: CLEAR_APP_MESSAGES
+            type: CLEAR_APP_MESSAGES,
+            message:'reset'
         })
     },[])
 

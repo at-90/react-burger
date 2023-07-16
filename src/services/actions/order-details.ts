@@ -2,17 +2,21 @@ import { API_ORDERS, API_ORDER } from '../../constants/api';
 import { request } from '../../utils/getApiData';
 import {AppDispatch, TIngredient} from "../../constants/types";
 import {getCookie} from "../../utils/cookie";
+import {TOrderDetailsReducerOrder} from "../reducers/order-details";
 
 export const ORDER_DETAILS_REQUEST:'ORDER_DETAILS_REQUEST' = 'ORDER_DETAILS_REQUEST';
 export const ORDER_DETAILS_SUCCESS:'ORDER_DETAILS_SUCCESS' = 'ORDER_DETAILS_SUCCESS';
 export const ORDER_DETAILS_FAILED:'ORDER_DETAILS_FAILED' = 'ORDER_DETAILS_FAILED';
 export const ORDER_DETAILS_RESET:'ORDER_DETAILS_RESET' = 'ORDER_DETAILS_RESET';
 
+export const CURRENT_ORDER_DETAILS_SUCCESS:'CURRENT_ORDER_DETAILS_SUCCESS' = 'CURRENT_ORDER_DETAILS_SUCCESS';
+
 export type TOrderDetailsActions =
     { type: typeof ORDER_DETAILS_REQUEST } |
     { type: typeof ORDER_DETAILS_SUCCESS; order: Array<TIngredient> } |
     { type: typeof ORDER_DETAILS_FAILED } |
-    { type: typeof ORDER_DETAILS_RESET }
+    { type: typeof ORDER_DETAILS_RESET } |
+    { type: typeof CURRENT_ORDER_DETAILS_SUCCESS; order: TOrderDetailsReducerOrder}
 
 
 export const checkout = (orderList: Array<TIngredient>) => {
@@ -48,7 +52,7 @@ export function getOrder(id: string) {
         request(`${API_ORDER}/${id}`)
             .then((response) => {
                 dispatch({
-                    type: ORDER_DETAILS_SUCCESS,
+                    type: CURRENT_ORDER_DETAILS_SUCCESS,
                     order: response.orders[0],
                 });
             })

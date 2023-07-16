@@ -254,7 +254,7 @@ export const updateUser = (data:{ name: string, email: string, password: string 
 	}
 }
 
-export const recoveryPwd = (data: string ) =>{
+export const recoveryPwd = (data:{  email: string }) =>{
 
 	return function (dispatch:any) {
 		dispatch({

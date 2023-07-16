@@ -16,13 +16,14 @@ import { useDrop } from 'react-dnd';
 import { ADD_BUN, ADD_INGREDIENT, CONSTRUCTOR_UPDATE, CONSTRUCTOR_RESET } from '../../services/actions/burger-constructor';
 import uuid from 'react-uuid';
 import {useNavigate} from "react-router-dom";
-import {RootState, AppDispatch} from "../../constants/types";
+import {RootState, AppDispatch, TIngredient, TDragIngredient} from "../../constants/types";
 
 type TIngredientDragType = {
     id: string;
     type: string,
     index: number;
 }
+/*
 
 type TIngredient = {
     id:string;
@@ -32,12 +33,13 @@ type TIngredient = {
     image: string;
     dragId: number;
 }
+*/
 
 const BurgerConstructor = () => {
 
     const dispatch: AppDispatch = useDispatch();
     const navigate = useNavigate();
-    const isLoggedIn = useAppSelector((store: RootState )  => store.user.isLoggedIn);
+    const {isLoggedIn} = useAppSelector((store: RootState )  => store.user);
 
     const getStoreComponents = ((store: RootState) => store.burgerConstructor.components)
     const getStoreBuns = ((store: RootState) => store.burgerConstructor.buns)
@@ -55,7 +57,7 @@ const BurgerConstructor = () => {
 
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    const [, dropTargetRef] = useDrop<TIngredientDragType>({
+    const [, dropTargetRef] = useDrop<TDragIngredient, void>({
         accept: "ingredient",
         drop(item ) {
 
@@ -99,7 +101,7 @@ const BurgerConstructor = () => {
     const handleCheckout = () => {
         if(isLoggedIn){
             dispatch({type: ORDER_DETAILS_RESET});
-            dispatch(checkout(cart));
+            dispatch<any>(checkout(cart));
             handleModalOpen();
         }else{
             navigate('/login')}
@@ -177,7 +179,7 @@ const BurgerConstructor = () => {
                         title=""
                         typeModal="big"
                         closeModal={handleModalClose}>
-                        <OrderDetails order={orderDetails.order.order} />
+                        <OrderDetails order={orderDetails.order?.order} />
 
                     </Modal>}
 
