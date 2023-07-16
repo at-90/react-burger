@@ -9,9 +9,10 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import {selectUser} from "../../services/selectors/selectors";
 import styles from './user.module.css'
+import {AppDispatch} from "../../constants/types";
 
 const User = () => {
-    const dispatch:React.Dispatch<any> = useDispatch();
+    const dispatch:AppDispatch = useDispatch();
     const user = useSelector(selectUser);
     const defaultPwd= 'Введите новый пароль';
     const initState = {...user, password: defaultPwd}

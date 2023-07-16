@@ -19,7 +19,7 @@ const BurgerIngredients = () => {
 
     const [current, setCurrent] = useState('buns');
 
-    const scrollListRef  = useRef<HTMLElement | any>(null);
+    const scrollListRef  = useRef<HTMLDivElement >(null);
     const refBuns = useRef<HTMLElement>(null);
     const refSauces = useRef<HTMLElement>(null);
     const refFillings = useRef<HTMLElement>(null);

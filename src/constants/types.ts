@@ -9,6 +9,7 @@ import {TIngredientsDetails} from "../services/actions/ingredients-details";
 import {rootReducer} from "../services/reducers";
 import {ThunkAction} from "redux-thunk";
 import { Action, ActionCreator } from 'redux';
+import { ThunkDispatch } from 'redux-thunk';
 
 export type TIngredient = {
     _id: string;
@@ -49,6 +50,31 @@ export type TOrder = {
 
 export type TOrderDetails = {
     order: TOrder
+}
+
+export type TProfileOrder = {
+    ingredients: Array<TIngredient>
+    _id:string;
+    name:string;
+
+    createdAt:string;
+    updatedAt:string;
+    status:string;
+    owner: {
+        name:string;
+        email:string;
+        createdAt: string;
+        updatedAt:string;
+    }
+    number:number;
+    price:number;
+}
+export type TFullOrderDetails = {
+    success :boolean;
+    name:string;
+    order: TProfileOrder;
+    currentOrder: TOrderItemComposition
+
 }
 
 export type TOrderItemComposition = {
@@ -97,4 +123,4 @@ export type AppThunk<TReturn = void> = ActionCreator<
 
 export type TApplicationActions =  TBurgerConstructorActions  | TBurgerIngredientsActions | TOrderDetailsActions | TUsersActions  | TWsConnectionActions | TAppActions | TIngredientsDetails;
 
-export type AppDispatch = Dispatch<TApplicationActions>;
+export type AppDispatch = ThunkDispatch<RootState, never, TApplicationActions>;

@@ -101,7 +101,7 @@ const BurgerConstructor = () => {
     const handleCheckout = () => {
         if(isLoggedIn){
             dispatch({type: ORDER_DETAILS_RESET});
-            dispatch<any>(checkout(cart));
+            dispatch(checkout(cart));
             handleModalOpen();
         }else{
             navigate('/login')}
@@ -147,7 +147,7 @@ const BurgerConstructor = () => {
 
                     <div className="scrollList scrollList-short mt-4 mb-4 pr-2 nmr-4">
                         <div className={burgerConstructorStyles.orderList}>
-                            {orderList.map((elem: any, index: number) => {
+                            {orderList.map((elem: TIngredient, index: number) => {
                                 return <DraggableItem item={elem} key={elem.dragId} index={index} moveCard={moveCard} />
                             })
                             }
@@ -179,7 +179,7 @@ const BurgerConstructor = () => {
                         title=""
                         typeModal="big"
                         closeModal={handleModalClose}>
-                        <OrderDetails order={orderDetails.order?.order} />
+                        <OrderDetails order={orderDetails.order.order} />
 
                     </Modal>}
 

@@ -24,7 +24,7 @@ const OrderItem = (props: TOrderItem) => {
 
    const orderIngredients: Array<TIngredient > = useMemo(() => {
             return order?.ingredients.map((id) => {
-                return ingredients.find((ingredient: any) => ingredient._id === id
+                return ingredients.find((ingredient:TIngredient) => ingredient._id === id
                 );
             })
         }, [ingredients, order]);

@@ -40,7 +40,7 @@ export const constructorReducer = (state = constructorState, action:TBurgerConst
 
             return {
                 ...state,
-                components: state.components.filter((elem: any) => elem.dragId !== action.dragId)
+                components: state.components.filter((elem: TIngredient) => elem.dragId !== action.dragId)
             }
         }
         case CONSTRUCTOR_UPDATE: {

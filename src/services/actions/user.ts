@@ -66,7 +66,7 @@ export type TUsersActions =
 
 
 
-const refreshToken:any = (afterRefresh: any) => (dispatch: any) => {
+const refreshToken  = (afterRefresh: { (dispatch: AppDispatch): void; (dispatch: AppDispatch): void; }) => (dispatch: AppDispatch) => {
 	refreshTokenRequest()
 		.then((res) => {
 			setCookie('atoken', res.accessToken);
@@ -75,9 +75,9 @@ const refreshToken:any = (afterRefresh: any) => (dispatch: any) => {
 		})
 };
 
-export const loginUser   = (loginData?: any) => {
+export const loginUser   = (loginData?:   {  email: string, password: string } | undefined) => {
 
-	return function (dispatch: any) {
+	return function (dispatch: AppDispatch) {
 		dispatch({
 			type: LOGIN_REQUEST
 		})
@@ -123,7 +123,7 @@ export const loginUser   = (loginData?: any) => {
 
 export const logoutUser = () => {
 
-	return function (dispatch:any) {
+	return function (dispatch:AppDispatch) {
 		dispatch({
 			type: LOGOUT_REQUEST
 		})
@@ -151,7 +151,7 @@ export const logoutUser = () => {
 
 export const registerUser = (data: { name: string, email: string, password: string }) => {
 
-	return function (dispatch:any) {
+	return function (dispatch:AppDispatch) {
 		dispatch({
 			type: REGISTER_REQUEST
 		})
@@ -196,7 +196,7 @@ export const registerUser = (data: { name: string, email: string, password: stri
 
 export const updateUser = (data:{ name: string, email: string, password: string }) =>{
 
-	return function (dispatch:any) {
+	return function (dispatch:AppDispatch) {
 		dispatch({
 			type: UPDATE_PERSONAL_INFO_REQUEST
 		})
@@ -256,7 +256,7 @@ export const updateUser = (data:{ name: string, email: string, password: string 
 
 export const recoveryPwd = (data: string ) =>{
 
-	return function (dispatch:any) {
+	return function (dispatch:AppDispatch) {
 		dispatch({
 			type: RECOVERY_PWD_REQUEST
 		})
@@ -293,9 +293,9 @@ export const recoveryPwd = (data: string ) =>{
 	}
 }
 
-export const saveNewPwd:any = (data:{ password: string, token: string }) =>{
+export const saveNewPwd  = (data:{ password: string, token: string }) =>{
 
-	return function (dispatch:any) {
+	return function (dispatch:AppDispatch) {
 
 		request(API_SAVE_NEW_PWD, {
 			method: 'POST',
@@ -327,7 +327,7 @@ export const saveNewPwd:any = (data:{ password: string, token: string }) =>{
 
 export const getApiUser = ()=>{
 
-	return function (dispatch:any) {
+	return function (dispatch:AppDispatch) {
 
 		request(API_USER, {
 			method: 'GET',

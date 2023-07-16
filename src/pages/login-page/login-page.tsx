@@ -11,6 +11,7 @@ import { getLocalStorage } from '../../utils/localStorage';
 import ErrorMessage from "../../components/error/error-message";
 import {CLEAR_APP_MESSAGES} from "../../services/actions";
 import {selectAppMessage} from "../../services/selectors/selectors";
+import {AppDispatch} from "../../constants/types";
 
 type TUser = {
     email: string;
@@ -20,9 +21,9 @@ type TUser = {
 
 const LoginPage = () => {
 
-    const [user, setUser] = useState<TUser>({name:'',email:''})
+    const [user, setUser] = useState ({name:'',email:'', password:''})
     const error = useSelector(selectAppMessage);
-    const dispatch: React.Dispatch<any> = useDispatch();
+    const dispatch: AppDispatch = useDispatch();
 
     const handlerSubmit = (e: React.SyntheticEvent) => {
         e.preventDefault();
@@ -33,7 +34,8 @@ const LoginPage = () => {
     useEffect(() => {
         setUser(getLocalStorage('user'));
         dispatch({
-            type: CLEAR_APP_MESSAGES
+            type: CLEAR_APP_MESSAGES,
+            message:''
         })
     }, [])
 

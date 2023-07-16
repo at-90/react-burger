@@ -6,7 +6,7 @@ import {
     TOrderDetailsActions,
     CURRENT_ORDER_DETAILS_SUCCESS,
 } from "../actions/order-details";
-import {TIngredient} from "../../constants/types";
+import {TFullOrderDetails, TIngredient, TOrder, TOrderItemComposition, TProfileOrder} from "../../constants/types";
 
 export type TOrderDetailsReducerOrder = {
 
@@ -27,8 +27,18 @@ export type TOrderDetailsReducerOrder = {
 
 }
 
+export type TOrderOrder = {
+    _id: string,
+    ingredients: Array<TIngredient>,
+    name: string,
+    number: number,
+    status: string,
+    createdAt: string,
+    updatedAt: string,
+}
+
 export type TOrderDetailsState = {
-    order: Array<TIngredient>| null | any;
+    order: TFullOrderDetails | null ;
     isLoading: boolean;
     hasError: boolean;
     currentOrder: TOrderDetailsReducerOrder  | null

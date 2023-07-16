@@ -12,6 +12,7 @@ import ErrorMessage from "../../components/error/error-message";
 import {registerUser} from "../../services/actions/user";
 import {CLEAR_APP_MESSAGES} from "../../services/actions";
 import {selectAppMessage} from "../../services/selectors/selectors";
+import {AppDispatch} from "../../constants/types";
 
 type TUser = {
     email: string;
@@ -25,7 +26,7 @@ const RegisterPage = () => {
     const [user, setUser] = useState({name:'',email:'', password:''});
     const error = useSelector(selectAppMessage);
 
-    const dispatch:React.Dispatch<any> = useDispatch()
+    const dispatch:AppDispatch = useDispatch()
 
     const handleSubmit =(e: React.SyntheticEvent)=>{
         e.preventDefault();
@@ -34,7 +35,8 @@ const RegisterPage = () => {
 
     useEffect(() => {
         dispatch({
-            type: CLEAR_APP_MESSAGES
+            type: CLEAR_APP_MESSAGES,
+            message:''
         })
     }, [])
 

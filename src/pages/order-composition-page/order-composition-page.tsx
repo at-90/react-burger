@@ -104,7 +104,7 @@ const OrderCompositionPage = () => {
 
     useEffect(() => {
         if (id) {
-            dispatch<any>(getOrder(id));
+            dispatch(getOrder(id));
         }
     }, [id]);
 

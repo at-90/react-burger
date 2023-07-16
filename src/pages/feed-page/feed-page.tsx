@@ -42,7 +42,7 @@ const FeedPage = () => {
 
                         <div className={`scrollList `}>
                             {orders && orders.length > 0 ? (
-                                orders.map((elem: any) => {
+                                orders.map((elem: TOrderItemComposition) => {
                                     return <OrderItem order={elem} key={elem._id} type="feedItem" />;
                                 })
                             ) : (

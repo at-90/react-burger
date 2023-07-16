@@ -8,6 +8,7 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import {selectIsEmailSend} from "../../services/selectors/selectors";
 import {isEmailValid} from "../../utils/validation";
+import {AppDispatch} from "../../constants/types";
 
 const ForgotPasswordPage = () => {
 
@@ -15,7 +16,7 @@ const ForgotPasswordPage = () => {
     const isEmailSend = useSelector(selectIsEmailSend);
     isEmailSend && navigate('/reset-password', {replace: true})
 
-    const dispatch: React.Dispatch<any> = useDispatch();
+    const dispatch: AppDispatch = useDispatch();
 
     const [email, setEmail] = useState('');
     const handleSubmit =(e: React.SyntheticEvent)=>{

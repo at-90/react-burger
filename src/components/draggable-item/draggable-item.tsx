@@ -7,19 +7,14 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useDrag, useDrop } from "react-dnd";
 import styles from './draggable-item.module.css';
-type TIngredient = {
-    id:string;
-    type: string
-    name: string;
-    price: number;
-    image: string;
-    dragId: number;
-}
+import {TDragIngredient, TIngredient} from "../../constants/types";
+
 type TDraggableItem = {
     item: TIngredient;
     index: number ;
     moveCard: (dragIndex: number, hoverIndex: number)=> void;
 }
+
 const DraggableItem :React.FC<TDraggableItem> = ({ item, index, moveCard }) => {
 
     const dispatch = useDispatch()
@@ -31,7 +26,7 @@ const DraggableItem :React.FC<TDraggableItem> = ({ item, index, moveCard }) => {
     }
 
     const ref = useRef<HTMLElement>(null);
-    const [{ handlerId }, drop] = useDrop({
+    const [{ handlerId  }, drop] = useDrop({
 
         accept: 'component',
         collect(monitor) {
@@ -73,7 +68,7 @@ const DraggableItem :React.FC<TDraggableItem> = ({ item, index, moveCard }) => {
 
     const [{ isDragging }, drag] = useDrag({
         type: 'component',
-        item: () => ({ id: item.id, index }),
+        item: () => ({ id: item._id, index }),
         collect: (monitor) => ({
             isDragging: monitor.isDragging(),
         }),

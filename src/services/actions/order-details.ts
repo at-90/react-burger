@@ -1,6 +1,6 @@
 import { API_ORDERS, API_ORDER } from '../../constants/api';
 import { request } from '../../utils/getApiData';
-import {AppDispatch, TIngredient} from "../../constants/types";
+import {AppDispatch, TFullOrderDetails, TIngredient, TOrderItemComposition, TProfileOrder} from "../../constants/types";
 import {getCookie} from "../../utils/cookie";
 import {TOrderDetailsReducerOrder} from "../reducers/order-details";
 
@@ -13,7 +13,7 @@ export const CURRENT_ORDER_DETAILS_SUCCESS:'CURRENT_ORDER_DETAILS_SUCCESS' = 'CU
 
 export type TOrderDetailsActions =
     { type: typeof ORDER_DETAILS_REQUEST } |
-    { type: typeof ORDER_DETAILS_SUCCESS; order: Array<TIngredient> } |
+    { type: typeof ORDER_DETAILS_SUCCESS; order: TFullOrderDetails } |
     { type: typeof ORDER_DETAILS_FAILED } |
     { type: typeof ORDER_DETAILS_RESET } |
     { type: typeof CURRENT_ORDER_DETAILS_SUCCESS; order: TOrderDetailsReducerOrder}
