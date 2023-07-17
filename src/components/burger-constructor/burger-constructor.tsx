@@ -17,6 +17,7 @@ import uuid from 'react-uuid';
 import {useNavigate} from "react-router-dom";
 import {   TIngredient, TDragIngredient} from "../../constants/types";
 import {selectBuns, selectComponents, selectUser, selectTotalSum, selectOrderDetails} from "../../services/selectors/selectors";
+import Preloader from "../preloader/preloader";
 
 
 
@@ -66,6 +67,7 @@ const BurgerConstructor = () => {
         })
     });
 
+
     const handleModalOpen = () => {
         setIsModalOpen(true)
 
@@ -109,64 +111,65 @@ const BurgerConstructor = () => {
 
     }, [orderList, dispatch]);
 
+
     return (
 
-        <div ref={dropTargetRef} className={burgerConstructorStyles.order}>
+                <div ref={dropTargetRef} className={burgerConstructorStyles.order}>
 
-            {(orderList.length || buns.length)
-                ? <>
-                    {bun &&
-                        <ConstructorElement
-                            type="top"
-                            isLocked={true}
-                            text={`${bun.name} (верх)`}
-                            price={bun.price}
-                            thumbnail={bun.image}
-                        />
-                    }
-
-                    <div className="scrollList scrollList-short mt-4 mb-4 pr-2 nmr-4">
-                        <div className={burgerConstructorStyles.orderList}>
-                            {orderList.map((elem: TIngredient, index: number) => {
-                                return <DraggableItem item={elem} key={elem.dragId} index={index} moveCard={moveCard} />
-                            })
+                    {(orderList.length || buns.length)
+                        ? <>
+                            {bun &&
+							<ConstructorElement
+								type="top"
+								isLocked={true}
+								text={`${bun.name} (верх)`}
+								price={bun.price}
+								thumbnail={bun.image}
+							/>
                             }
-                        </div>
-                    </div>
 
-                    {bun &&
-                        <ConstructorElement
-                            type="top"
-                            isLocked={true}
-                            text={`${bun.name} (низ)`}
-                            price={bun.price}
-                            thumbnail={bun.image}
-                            extraClass="constructor-element_pos_bottom"
-                        />
-                    }
+                            <div className="scrollList scrollList-short mt-4 mb-4 pr-2 nmr-4">
+                                <div className={burgerConstructorStyles.orderList}>
+                                    {orderList.map((elem: TIngredient, index: number) => {
+                                        return <DraggableItem item={elem} key={elem.dragId} index={index} moveCard={moveCard} />
+                                    })
+                                    }
+                                </div>
+                            </div>
 
-                    <div className={[burgerConstructorStyles.amount, 'pt-10'].join(' ')}>
-                        <div className={[burgerConstructorStyles.amountValue, 'mr-10'].join(' ')}>
+                            {bun &&
+							<ConstructorElement
+								type="top"
+								isLocked={true}
+								text={`${bun.name} (низ)`}
+								price={bun.price}
+								thumbnail={bun.image}
+								extraClass="constructor-element_pos_bottom"
+							/>
+                            }
+
+                            <div className={[burgerConstructorStyles.amount, 'pt-10'].join(' ')}>
+                                <div className={[burgerConstructorStyles.amountValue, 'mr-10'].join(' ')}>
                             <span className={"text text_type_digits-medium"}>
                                 {totalSum}
                             </span>
-                            <CurrencyIcon type="primary" />
-                        </div>
-                        <Button htmlType="button" type="primary" size="large" onClick={handleCheckout}>Оформить заказ</Button>
-                    </div>
+                                    <CurrencyIcon type="primary" />
+                                </div>
+                                <Button htmlType="button" type="primary" size="large" onClick={handleCheckout}>Оформить заказ</Button>
+                            </div>
 
-                    {isModalOpen && orderDetails.order && <Modal
-                        title=""
-                        typeModal="big"
-                        closeModal={handleModalClose}>
-                        <OrderDetails order={orderDetails.order.order} />
+                            {isModalOpen && orderDetails.order && <Modal
+								title=""
+								typeModal="big"
+								closeModal={handleModalClose}>
+								<OrderDetails order={orderDetails.order.order} />
 
-                    </Modal>}
+							</Modal>}
 
-                </>
-                : <div className={burgerConstructorStyles.cta}>Перетащите ингредиенты</div>
-            }
-        </div>
+                        </>
+                        : <div className={burgerConstructorStyles.cta}>Перетащите ингредиенты</div>
+                    }
+                </div>
 
     )
 }

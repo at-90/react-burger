@@ -19,7 +19,7 @@ const DraggableItem :React.FC<TDraggableItem> = ({ item, index, moveCard }) => {
 
     const dispatch = useAppDispatch()
     const handleRemove = () => {
-        // @ts-ignore
+
         dispatch({
             type: CONSTRUCTOR_REMOVE_ITEM,
             dragId: item.dragId

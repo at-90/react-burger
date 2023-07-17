@@ -38,9 +38,8 @@ const OrderItem = (props: TOrderItem) => {
     const length =  orderIngredients.length;
 
     let orderPrice = useMemo(() => {
-        return orderIngredients.reduce<any>((result, elem ) => result + elem?.price, 0);
+        return orderIngredients.reduce<any>((result, elem ) => result + elem?.price ?? 0, 0);
     }, [orderIngredients]);
-
 
     return (
         <Link

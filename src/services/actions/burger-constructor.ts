@@ -10,7 +10,7 @@ export const CONSTRUCTOR_RESET:'CONSTRUCTOR_RESET' = 'CONSTRUCTOR_RESET';
 export type TBurgerConstructorActions =
     { type: typeof ADD_INGREDIENT ; item: TDragIngredient    } |
     { type: typeof ADD_BUN ; item: TDragIngredient  } |
-    { type: typeof CONSTRUCTOR_REMOVE_ITEM; dragId: number } |
+    { type: typeof CONSTRUCTOR_REMOVE_ITEM; dragId: number | string | undefined } |
     { type: typeof CONSTRUCTOR_UPDATE; components: Array<TDragIngredient> } |
     { type:  typeof CONSTRUCTOR_TOTALSUM; totalSum: number  }|
     { type:  typeof CONSTRUCTOR_RESET }
