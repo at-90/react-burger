@@ -7,11 +7,9 @@ import { Provider } from 'react-redux';
 import {BrowserRouter} from 'react-router-dom';
 import App from './components/app/app';
 import reportWebVitals from './reportWebVitals';
-import thunk,{ThunkAction} from 'redux-thunk';
+import thunk  from 'redux-thunk';
 import {socketMiddleware} from "./services/middleware/socket-middleware";
-
 import {wsUrl} from "./constants/api";
-import {TApplicationActions} from "./constants/types";
 import {wsActions, wsOrderActions} from "./services/actions/ws";
 
 declare global {
@@ -26,12 +24,9 @@ const enhancer = composeEnhancers(applyMiddleware(thunk,socketMiddleware(wsActio
 
 const store = createStore(rootReducer, enhancer);
 
-
-
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
-
 
 root.render(
 

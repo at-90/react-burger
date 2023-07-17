@@ -1,5 +1,4 @@
-import { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useEffect } from 'react';
 import {  Routes, Route, useLocation, useNavigate} from 'react-router-dom';
 import ErrorBoundary from '../error/error-boundary';
 import Preloader from '../preloader/preloader';
@@ -10,17 +9,19 @@ import {selectIngredients} from "../../services/selectors/selectors";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import Modal from "../modal/modal";
 import OrderCompositionPage from "../../pages/order-composition-page/order-composition-page";
+import {useAppDispatch, useAppSelector} from "../../hooks/hooks";
+import {checkUserAuth} from "../../services/actions/user";
 
 const App = () => {
 
-    const dispatch = useDispatch();
-    const { itemsRequest, items : ingredients } = useSelector(selectIngredients);
+    const dispatch = useAppDispatch();
+    const { itemsRequest, items : ingredients } = useAppSelector(selectIngredients);
 
     const location = useLocation();
     const navigate = useNavigate();
     let background = location.state && location.state.background;
 
-    useEffect(() => { dispatch(getApiIngredients()) }, [dispatch])
+    useEffect(() => { dispatch(getApiIngredients()); dispatch(checkUserAuth()) }, [dispatch])
 
     const closeModal = () => { navigate(-1)};
 
@@ -66,7 +67,7 @@ const App = () => {
                                         path='/ingredients/:ingredientId'
                                         element={
 
-                                            <Modal closeModal={closeModal}  >
+                                            <Modal closeModal={closeModal}  title="Детали ингредиента">
                                                 <IngredientDetails ingredients = {ingredients}/>
                                             </Modal>
                                         }

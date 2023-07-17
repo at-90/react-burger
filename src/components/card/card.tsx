@@ -7,6 +7,7 @@ import {
     CurrencyIcon, Counter
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useDrag } from "react-dnd";
+import {AppDispatch} from "../../constants/types";
 
 type TIngredient = {
     _id: string;

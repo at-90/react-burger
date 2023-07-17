@@ -1,4 +1,4 @@
-import {request, refreshTokenRequest} from "../../utils/getApiData";
+import {request, refreshTokenRequest, getUser} from "../../utils/getApiData";
 import {
 	API_LOGIN_USER,
 	API_REGISTER_USER,
@@ -8,10 +8,13 @@ import {
 	API_SAVE_NEW_PWD,
 } from "../../constants/api";
 import {delLocalStorage, getLocalStorage, setLocalStorage} from "../../utils/localStorage";
-import {getCookie, setCookie} from "../../utils/cookie";
+import {delCookie, getCookie, setCookie} from "../../utils/cookie";
 import {APP_MESSAGE, TAppActions} from "./index";
 import { TApplicationActions, TIngredient, TUser} from "../../constants/types";
 import {AppDispatch, AppThunk} from "../../constants/types";
+
+export const GET_USER_REQUEST:`USER/GET_USER_REQUEST`  = `USER/GET_USER_REQUEST`;
+export const GET_USER_AUTH_CHECKED:`USER/GET_USER_AUTH_CHECKED`  = `USER/GET_USER_AUTH_CHECKED`;
 
 export const LOGIN_REQUEST:`USER/AUTH_REQUEST`  = `USER/AUTH_REQUEST`;
 export const LOGIN_FAILED:`USER/AUTH_FAILED` = `USER/AUTH_FAILED`;
@@ -62,7 +65,9 @@ export type TUsersActions =
 	{ type: typeof SAVE_NEW_PWD_SUCCESS } |
 	{ type: typeof GET_USER_INFO_SUCCESS;user: TUser | null } |
 	{ type: typeof GET_USER_INFO_FAILED; error: string } |
-	{ type: typeof APP_MESSAGE }
+	{ type: typeof APP_MESSAGE } |
+	{ type: typeof GET_USER_REQUEST } |
+	{ type: typeof GET_USER_AUTH_CHECKED }
 
 
 
@@ -374,9 +379,32 @@ export const getApiUser = ()=>{
 					}
 				}
 			)
-
 	}
 }
+
+export const checkUserAuth = () => {
+	return (dispatch: AppDispatch) => {
+		dispatch({
+			type: GET_USER_REQUEST,
+		});
+		if (getCookie("atoken")) {
+
+			 getUser().then(
+				(response) => {
+					console.log(response)
+					dispatch({
+						type: GET_USER_INFO_SUCCESS,
+						user: response.user
+					})
+				}
+			).catch(err => console.log(err))
+		} else {
+			dispatch({
+				type: GET_USER_AUTH_CHECKED,
+			});
+		}
+	};
+};
 
 
 

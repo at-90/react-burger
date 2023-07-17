@@ -6,7 +6,7 @@ import {
     TOrderDetailsActions,
     CURRENT_ORDER_DETAILS_SUCCESS,
 } from "../actions/order-details";
-import {TFullOrderDetails, TIngredient, TOrder, TOrderItemComposition, TProfileOrder} from "../../constants/types";
+import {TFullOrderDetails, TIngredient } from "../../constants/types";
 
 export type TOrderDetailsReducerOrder = {
 
