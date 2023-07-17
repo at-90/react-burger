@@ -1,13 +1,13 @@
-import PropTypes from 'prop-types';
+
 import { useRef } from 'react';
-import { useDispatch } from 'react-redux';
 import { CONSTRUCTOR_REMOVE_ITEM } from '../../services/actions/burger-constructor';
 import {
     ConstructorElement, DragIcon
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useDrag, useDrop } from "react-dnd";
 import styles from './draggable-item.module.css';
-import {TDragIngredient, TIngredient} from "../../constants/types";
+import {  TIngredient} from "../../constants/types";
+import {useAppDispatch} from "../../hooks/hooks";
 
 type TDraggableItem = {
     item: TIngredient;
@@ -17,8 +17,9 @@ type TDraggableItem = {
 
 const DraggableItem :React.FC<TDraggableItem> = ({ item, index, moveCard }) => {
 
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch()
     const handleRemove = () => {
+        // @ts-ignore
         dispatch({
             type: CONSTRUCTOR_REMOVE_ITEM,
             dragId: item.dragId

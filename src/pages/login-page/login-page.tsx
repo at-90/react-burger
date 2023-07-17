@@ -5,25 +5,19 @@ import {
     PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link } from "react-router-dom";
-import {useDispatch, useSelector} from "react-redux";
 import { loginUser } from "../../services/actions/user";
 import { getLocalStorage } from '../../utils/localStorage';
 import ErrorMessage from "../../components/error/error-message";
 import {CLEAR_APP_MESSAGES} from "../../services/actions";
 import {selectAppMessage} from "../../services/selectors/selectors";
-import {AppDispatch} from "../../constants/types";
+import {useAppDispatch, useAppSelector} from "../../hooks/hooks";
 
-type TUser = {
-    email: string;
-    name: string;
-    password?:string;
-}
 
 const LoginPage = () => {
 
     const [user, setUser] = useState ({name:'',email:'', password:''})
-    const error = useSelector(selectAppMessage);
-    const dispatch: AppDispatch = useDispatch();
+    const error = useAppSelector(selectAppMessage);
+    const dispatch = useAppDispatch();
 
     const handlerSubmit = (e: React.SyntheticEvent) => {
         e.preventDefault();

@@ -1,6 +1,5 @@
 import React,{useEffect, useState} from "react";
-import {Link, useLocation, useNavigate} from 'react-router-dom';
-import {useDispatch, useSelector} from "react-redux";
+import {Link,  useNavigate} from 'react-router-dom';
 import {CLEAR_APP_MESSAGES} from "../../services/actions";
 import {
     Button,
@@ -9,18 +8,18 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import ErrorMessage from "../../components/error/error-message";
 import {saveNewPwd} from "../../services/actions/user";
-import {selectAppMessage, selectIsEmailSend, selectUserError} from "../../services/selectors/selectors";
-import {useAppDispatch} from "../../hooks/hooks";
+import {selectAppMessage,  selectUser} from "../../services/selectors/selectors";
+import {useAppDispatch, useAppSelector} from "../../hooks/hooks";
 
 export type TNewPwd = {password: string; token: string}
 
 const ResetPasswordPage = () => {
-    const error = useSelector(selectAppMessage);
+    const error = useAppSelector(selectAppMessage);
     const dispatch = useAppDispatch();
     const [newPwd, setNewPwd] = useState<TNewPwd>({password: '', token: ''});
 
     const navigate = useNavigate();
-    const isEmailSend = useSelector(selectIsEmailSend);
+    const {isEmailSend} = useAppSelector(selectUser);
 
     const resetPwd = (e: React.SyntheticEvent) =>{
         e.preventDefault()

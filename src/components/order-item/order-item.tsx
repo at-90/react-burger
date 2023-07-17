@@ -1,6 +1,6 @@
 import {TIngredient, TOrderItem} from "../../constants/types";
 import {useMemo} from "react";
-import {Link,useLocation, useNavigate } from "react-router-dom";
+import {Link,useLocation} from "react-router-dom";
 import {
     CurrencyIcon,
     FormattedDate,
@@ -16,13 +16,19 @@ const OrderItem = (props: TOrderItem) => {
     const {items : ingredients} =  useAppSelector(selectIngredients);
 
 
-    enum orderStatus {
-        CREATED = "Создан",
-        PENDING = "Готовится",
-        DONE = "Выполнен"
-        }
+    enum orderStatusList {
+        created = "Создан",
+        pending = "Готовится",
+        done = "Выполнен"
+    }
 
-   const orderIngredients: Array<TIngredient > = useMemo(() => {
+    const orderStatus = ()=> {
+        if (order.status === 'created') return orderStatusList.created
+        if (order.status === 'pending') return orderStatusList.pending
+        if (order.status === 'done') return orderStatusList.done
+    }
+
+   const orderIngredients  = useMemo(() => {
             return order?.ingredients.map((id) => {
                 return ingredients.find((ingredient:TIngredient) => ingredient._id === id
                 );
@@ -32,7 +38,7 @@ const OrderItem = (props: TOrderItem) => {
     const length =  orderIngredients.length;
 
     let orderPrice = useMemo(() => {
-        return orderIngredients?.reduce((result, elem) => result + elem?.price, 0);
+        return orderIngredients.reduce<any>((result, elem ) => result + elem?.price, 0);
     }, [orderIngredients]);
 
 
@@ -58,7 +64,7 @@ const OrderItem = (props: TOrderItem) => {
 
                     {location.pathname !== "/feed" && (
                         <div className={`pt-2 text text_type_main-small ${styles.orderInfo__status_complete}`}>
-                            {`orderStatus[order.status]`}
+                            {orderStatus()}
                         </div>
                     )}
                 </div>

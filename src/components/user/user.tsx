@@ -1,5 +1,4 @@
 import React, {useState,useEffect } from "react";
-import {useDispatch, useSelector} from "react-redux";
 import {updateUser,getApiUser} from "../../services/actions/user";
 import {
     Button,
@@ -7,16 +6,19 @@ import {
     PasswordInput,
     Input
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import {selectUser} from "../../services/selectors/selectors";
 import styles from './user.module.css'
-import {AppDispatch} from "../../constants/types";
+import {useAppDispatch, useAppSelector} from "../../hooks/hooks";
 
 const User = () => {
-    const dispatch:AppDispatch = useDispatch();
-    const user = useSelector(selectUser);
+    const dispatch =useAppDispatch();
+    const user = useAppSelector(store => store.user.user);
     const defaultPwd= 'Введите новый пароль';
-    const initState = {...user, password: defaultPwd}
-    const [state, setState] = useState(user);
+    const defaultValues = {
+        name: user?.name || "",
+        email: user?.email || "",
+        password: defaultPwd,
+    };
+    const [state, setState] = useState (defaultValues);
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const target = e.target;
@@ -35,7 +37,7 @@ const User = () => {
 
     const handleResetForm = (e: React.SyntheticEvent ) =>{
         e.preventDefault();
-        setState(initState);
+        setState(defaultValues);
     }
 
     useEffect(() => { dispatch(getApiUser()) }, [dispatch])

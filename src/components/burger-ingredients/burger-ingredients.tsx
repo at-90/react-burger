@@ -5,7 +5,7 @@ import IngredientsList from '../ingredients-list/ingredients-list';
 import {selectIngredients} from "../../services/selectors/selectors";
 import burgerIngredientsStyles from './burger-ingredients.module.css';
 import { useInView } from "framer-motion";
-import {TDragIngredient} from "../../constants/types";
+import {TDragIngredient, TIngredient} from "../../constants/types";
 
 const BurgerIngredients = () => {
 
@@ -13,9 +13,9 @@ const BurgerIngredients = () => {
     const { items } = useAppSelector(selectIngredients);
 
 
-    const buns = useMemo(() => { return items.filter((elem: TDragIngredient) => elem.type === 'bun'); }, [items])
-    const sauces = useMemo(() => { return items.filter((elem: TDragIngredient) => elem.type === 'sauce'); }, [items])
-    const fillings = useMemo(() => { return items.filter((elem: TDragIngredient) => elem.type === 'main'); }, [items])
+    const buns = useMemo(() => { return items.filter((elem: TIngredient) => elem.type === 'bun'); }, [items])
+    const sauces = useMemo(() => { return items.filter((elem: TIngredient) => elem.type === 'sauce'); }, [items])
+    const fillings = useMemo(() => { return items.filter((elem: TIngredient) => elem.type === 'main'); }, [items])
 
     const [current, setCurrent] = useState('buns');
 

@@ -45,7 +45,7 @@ export const GET_USER_INFO_FAILED:`USER/GET_USER_INFO_FAILED` = `USER/GET_USER_I
 
 
 export type TUsersActions =
-	{ type: typeof LOGIN_REQUEST} |
+	{ type: typeof LOGIN_REQUEST; } |
 	{ type: typeof LOGIN_FAILED; error: string } |
 	{ type: typeof LOGIN_SUCCESS; user: TUser | null } |
 	{ type: typeof LOGOUT_REQUEST } |
@@ -74,7 +74,10 @@ export type TUsersActions =
 const refreshToken  = (afterRefresh: { (dispatch: AppDispatch): void; (dispatch: AppDispatch): void; }) => (dispatch: AppDispatch) => {
 	refreshTokenRequest()
 		.then((res) => {
-			setCookie('atoken', res.accessToken);
+			let authToken = res.accessToken.split('Bearer ')[1];
+			if (authToken) {
+				setCookie('atoken', authToken);
+			}
 			setLocalStorage('rtoken', res.refreshToken);
 			dispatch(afterRefresh);
 		})
@@ -144,7 +147,7 @@ export const logoutUser = () => {
 					dispatch({
 						type: LOGOUT_SUCCESS
 					})
-					setCookie('atoken', '',{expires : new Date(0)});
+					delCookie('atoken');
 					delLocalStorage('user');
 					delLocalStorage('rtoken');
 				}
@@ -391,7 +394,7 @@ export const checkUserAuth = () => {
 
 			 getUser().then(
 				(response) => {
-					console.log(response)
+
 					dispatch({
 						type: GET_USER_INFO_SUCCESS,
 						user: response.user

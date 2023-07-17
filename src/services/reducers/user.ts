@@ -26,8 +26,11 @@ export type TUserState = {
     error: string
 }
 
-const userState: TUserState = {
-    user: null,
+ const userState: TUserState = {
+    user: {
+        name:'',
+        email:''
+    } ,
     loginRequest: false,
     loginError: false,
     registerRequest: false,
@@ -37,11 +40,13 @@ const userState: TUserState = {
     error:''
 }
 
-export const userReducer = (state = userState, action:TUsersActions) => {
+export const userReducer = (state = userState, action:TUsersActions):TUserState => {
+
     switch (action.type) {
 
         case LOGIN_REQUEST: {
             return {
+                ...state,
                 loginRequest: true,
                 loginError: false
             }
@@ -79,6 +84,7 @@ export const userReducer = (state = userState, action:TUsersActions) => {
 
         case REGISTER_REQUEST: {
             return {
+                ...state,
                 registerRequest: true,
                 registerError: false
             }
@@ -135,7 +141,9 @@ export const userReducer = (state = userState, action:TUsersActions) => {
         case GET_USER_INFO_SUCCESS: {
             return {
                 ...state,
-                user: action.user
+                user: action.user,
+                isLoggedIn: true
+
             }
         }
 

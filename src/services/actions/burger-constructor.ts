@@ -1,4 +1,4 @@
-import {TDragIngredient, TIngredient} from "../../constants/types";
+import {TDragIngredient} from "../../constants/types";
 
 export const ADD_INGREDIENT:'ADD_INGREDIENT' = "ADD_INGREDIENT";
 export const ADD_BUN:'ADD_BUN' = "ADD_BUN";

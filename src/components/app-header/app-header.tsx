@@ -1,14 +1,15 @@
-import {useSelector} from "react-redux";
 import { Link, NavLink } from "react-router-dom";
 import {
     BurgerIcon, ListIcon, Logo, ProfileIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import {selectUser} from "../../services/selectors/selectors";
 import headerStyles from './app-header.module.css';
+import {useAppSelector} from "../../hooks/hooks";
 
 
 const AppHeader = () => {
-    const user = useSelector(selectUser)
+    const user = useAppSelector(selectUser)
+
     return (
         <header className="pt-4 pb-4 header">
             <div className={[headerStyles.menuContainer, headerStyles.menu].join(' ')}>
@@ -25,7 +26,7 @@ const AppHeader = () => {
                     ? `${headerStyles.menuLink} ${headerStyles.menuLink_active} `
                     : headerStyles.menuLink}  >
                     <ProfileIcon type={'secondary'}/><span className='text text_type_main-default'>
-                    {user ? user.name : 'Личный кабинет'}</span>
+                    {user.user ? user.user?.name : 'Личный кабинет'}</span>
                 </NavLink>
             </div>
         </header>

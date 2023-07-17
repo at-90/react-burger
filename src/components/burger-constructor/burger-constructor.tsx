@@ -1,6 +1,5 @@
-import { useState, useEffect, useContext, useCallback, useMemo } from 'react';
-import { useAppSelector } from '../../hooks/hooks';
-import { useDispatch } from 'react-redux';
+import { useState, useEffect, useCallback, useMemo } from 'react';
+import {useAppDispatch, useAppSelector} from '../../hooks/hooks';
 import { checkout } from '../../services/actions/order-details';
 import { ORDER_DETAILS_RESET } from '../../services/actions/order-details';
 import Modal from "../modal/modal";
@@ -16,40 +15,21 @@ import { useDrop } from 'react-dnd';
 import { ADD_BUN, ADD_INGREDIENT, CONSTRUCTOR_UPDATE, CONSTRUCTOR_RESET } from '../../services/actions/burger-constructor';
 import uuid from 'react-uuid';
 import {useNavigate} from "react-router-dom";
-import {RootState, AppDispatch, TIngredient, TDragIngredient} from "../../constants/types";
+import {   TIngredient, TDragIngredient} from "../../constants/types";
+import {selectBuns, selectComponents, selectUser, selectTotalSum, selectOrderDetails} from "../../services/selectors/selectors";
 
-type TIngredientDragType = {
-    id: string;
-    type: string,
-    index: number;
-}
-/*
 
-type TIngredient = {
-    id:string;
-    type: string
-    name: string;
-    price: number;
-    image: string;
-    dragId: number;
-}
-*/
 
 const BurgerConstructor = () => {
 
-    const dispatch: AppDispatch = useDispatch();
+    const dispatch= useAppDispatch();
     const navigate = useNavigate();
-    const {isLoggedIn} = useAppSelector((store: RootState )  => store.user);
+    const {isLoggedIn} = useAppSelector(selectUser);
 
-    const getStoreComponents = ((store: RootState) => store.burgerConstructor.components)
-    const getStoreBuns = ((store: RootState) => store.burgerConstructor.buns)
-    const getStoreTotalSum = ((store: RootState) => store.burgerConstructor.totalSum)
-    const getStoreOrderDetails = ((store: RootState) => store.orderDetails)
-
-    const orderList = useAppSelector(getStoreComponents);
-    const buns = useAppSelector(getStoreBuns);
-    const totalSum = useAppSelector(getStoreTotalSum);
-    const orderDetails = useAppSelector(getStoreOrderDetails);
+    const orderList = useAppSelector(selectComponents);
+    const buns = useAppSelector(selectBuns);
+    const totalSum = useAppSelector(selectTotalSum);
+    const orderDetails = useAppSelector(selectOrderDetails);
 
     const bun = buns[0] ?? null;
 

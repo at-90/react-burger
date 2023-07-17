@@ -2,17 +2,16 @@ import styles from './feed-page.module.css';
 import {useMemo} from 'react';
 import {useEffect} from "react";
 import Preloader from "../../components/preloader/preloader";
-import {useDispatch} from "react-redux";
 import OrderItem from "../../components/order-item/order-item";
 import {WS_CONNECTION_START, WS_CONNECTION_END} from "../../services/actions/ws";
-import {useAppSelector} from "../../hooks/hooks";
+import {useAppDispatch, useAppSelector} from "../../hooks/hooks";
 import {  TOrderItemComposition} from "../../constants/types";
 import {wsUrl} from "../../constants/api";
 
 const FeedPage = () => {
 
     const { orders, total, totalToday } = useAppSelector((store) => store.server);
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch()
 
     const ordersDone =  useMemo(() => {
         return orders.filter((item: TOrderItemComposition) => item.status === 'done').slice(0, 10).map((item) => item.number);

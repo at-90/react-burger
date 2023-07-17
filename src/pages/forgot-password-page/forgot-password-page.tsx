@@ -1,22 +1,21 @@
 import React, {useState} from "react";
-import {useDispatch, useSelector} from "react-redux";
 import {Link, useNavigate} from 'react-router-dom';
 import {recoveryPwd} from "../../services/actions/user";
 import {
     Button,
     EmailInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import {selectIsEmailSend} from "../../services/selectors/selectors";
+import { selectUser} from "../../services/selectors/selectors";
 import {isEmailValid} from "../../utils/validation";
-import {AppDispatch} from "../../constants/types";
+import {useAppDispatch, useAppSelector} from "../../hooks/hooks";
 
 const ForgotPasswordPage = () => {
 
     const navigate = useNavigate();
-    const isEmailSend = useSelector(selectIsEmailSend);
+    const {isEmailSend} = useAppSelector(selectUser);
     isEmailSend && navigate('/reset-password', {replace: true})
 
-    const dispatch: AppDispatch = useDispatch();
+    const dispatch = useAppDispatch()
 
     const [email, setEmail] = useState('');
     const handleSubmit =(e: React.SyntheticEvent)=>{

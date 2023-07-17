@@ -1,24 +1,19 @@
 import React, { useEffect, useMemo, useState } from "react";
-
 import {
     CurrencyIcon,
     FormattedDate,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-
-import { useLocation, useParams } from "react-router-dom";
-
+import {  useParams } from "react-router-dom";
 import styles from './order-composition-page.module.css'
-import {AppDispatch} from "../../constants/types";
-import {useDispatch} from "react-redux";
 import {TIngredient, TOrderItemComposition} from "../../constants/types";
-import {useAppSelector} from "../../hooks/hooks";
+import {useAppDispatch, useAppSelector} from "../../hooks/hooks";
 import {selectIngredients} from "../../services/selectors/selectors";
 import { getOrder} from "../../services/actions/order-details";
 
 
 const OrderCompositionPage = () => {
 
-    const dispatch: AppDispatch = useDispatch();
+    const dispatch = useAppDispatch();
 
     const { id } = useParams();
 
@@ -63,9 +58,9 @@ const OrderCompositionPage = () => {
         if (order.status === 'done') return orderStatusList.done
     }
 
-    const orderIngredients: TIngredient[] = useMemo(() => {
+    const orderIngredients = useMemo(() => {
 
-        return Array.from(new Set<TIngredient>(
+        return Array.from(new Set(
             order?.ingredients.map((id) => {
                     return ingredients.find((ingredient: TIngredient) => ingredient._id === id);
                 })
@@ -94,7 +89,7 @@ const OrderCompositionPage = () => {
     const orderPrice = useMemo(() => {
         let price = 0;
         order?.ingredients.forEach((id) => {
-            const ingredient = orderIngredients.find((item) => item._id === id);
+            const ingredient = orderIngredients.find((item: TIngredient | undefined) => item?._id === id);
             if (ingredient) {
                 price += ingredient.price;
             }
@@ -124,7 +119,7 @@ const OrderCompositionPage = () => {
             </div>
             <div className={`mt-6  scrollList ${styles.scrollList}`} >
                 {orderIngredients.map(
-                    (orderIngredient: TIngredient, index: number) => {
+                    (orderIngredient, index: number) => {
                         return (
                             <div className={`${styles.ingredient}`} key={index}>
                                 <div className={`${styles.ingredient__image}`}>
@@ -137,8 +132,8 @@ const OrderCompositionPage = () => {
                                 </div>
                                 <div className={`${styles.price}`}>
                                     <span className="text text_type_digits-default">
-                                      {countIngredients
-                                          ? `${countIngredients[orderIngredient._id]}`
+                                      {orderIngredient && countIngredients
+                                          ? `${countIngredients[orderIngredient?._id]}`
                                           : ""}
                                         x {orderIngredient?.price}
                                     </span>

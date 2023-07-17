@@ -1,5 +1,4 @@
-import {useAppSelector} from "../../hooks/hooks";
-import {useDispatch} from "react-redux";
+import {useAppDispatch, useAppSelector} from "../../hooks/hooks";
 import {
     WS_CONNECTION_ORDERS_END,
     WS_CONNECTION_ORDERS_START,
@@ -7,13 +6,12 @@ import {
 import {wsUrl} from "../../constants/api";
 import {useEffect} from "react";
 import OrderItem from "../order-item/order-item";
-import Preloader from "../preloader/preloader";
 import {getCookie} from "../../utils/cookie";
 
 const ProfileOrders = () => {
 
     const { orders } = useAppSelector((store) => store.profile);
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch()
 
     useEffect(() => {
         const token = getCookie("atoken");
