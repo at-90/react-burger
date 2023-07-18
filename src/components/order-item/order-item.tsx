@@ -29,16 +29,17 @@ const OrderItem = (props: TOrderItem) => {
     }
 
    const orderIngredients  = useMemo(() => {
-            return order?.ingredients.map((id) => {
+            return order.ingredients.map((id) => {
                 return ingredients.find((ingredient:TIngredient) => ingredient._id === id
-                );
-            })
+                )
+            }).filter((elem): elem is TIngredient => elem !== undefined);
         }, [ingredients, order]);
+
 
     const length =  orderIngredients.length;
 
     let orderPrice = useMemo(() => {
-        return orderIngredients.reduce<any>((result, elem ) => result + elem?.price ?? 0, 0);
+        return orderIngredients.reduce((result, elem ) => result + elem?.price, 0);
     }, [orderIngredients]);
 
     return (
