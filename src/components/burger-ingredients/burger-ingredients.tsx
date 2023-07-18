@@ -5,7 +5,7 @@ import IngredientsList from '../ingredients-list/ingredients-list';
 import {selectIngredients} from "../../services/selectors/selectors";
 import burgerIngredientsStyles from './burger-ingredients.module.css';
 import { useInView } from "framer-motion";
-import {TDragIngredient, TIngredient} from "../../constants/types";
+import {  TIngredient} from "../../constants/types";
 
 const BurgerIngredients = () => {
 
@@ -25,7 +25,7 @@ const BurgerIngredients = () => {
     const refFillings = useRef<HTMLElement>(null);
 
     const inViewBuns = useInView(refBuns, {  root: scrollListRef })
-    const inViewSauces = useInView(refSauces, {  amount: 0.25, margin: '-150px', root: scrollListRef, })
+    const inViewSauces = useInView(refSauces, {  amount: 0.75, margin: '-35px', root: scrollListRef, })
     const inViewFillings = useInView(refFillings, { amount: 0.45, root: scrollListRef, })
 
 

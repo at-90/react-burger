@@ -15,8 +15,8 @@ import {checkUserAuth} from "../../services/actions/user";
 const App = () => {
 
     const dispatch = useAppDispatch();
-    const { itemsRequest, items : ingredients } = useAppSelector(selectIngredients);
-
+    const { itemsRequest, items  } = useAppSelector(selectIngredients);
+    const ingredients =  items;
     const location = useLocation();
     const navigate = useNavigate();
     let background = location.state && location.state.background;
@@ -27,7 +27,7 @@ const App = () => {
 
     return (
 
-            <ErrorBoundary errorApp={false} >
+                <>
                 {
                     itemsRequest && ingredients
                         ? <Preloader />
@@ -39,7 +39,7 @@ const App = () => {
                                     return (elem.hasOwnProperty('leftMenu')
                                         ?
                                         <Route path={elem.path} element={elem.element} key={elem.path} >
-                                            {elem.leftMenu.map(item => <Route path={item.path} element={item.element} key={item.path} />)}
+                                            {elem.leftMenu?.map(item => <Route path={item.path} element={item.element} key={item.path} />)}
                                         </Route>
                                         : <Route path={elem.path} element={elem.element} key={elem.path} />
                                     )
@@ -67,7 +67,7 @@ const App = () => {
                                         path='/ingredients/:ingredientId'
                                         element={
 
-                                            <Modal closeModal={closeModal}  title="Детали ингредиента">
+                                            <Modal closeModal={closeModal}  title="Детали ингредиента" typeModal={``}>
                                                 <IngredientDetails ingredients = {ingredients}/>
                                             </Modal>
                                         }
@@ -75,7 +75,7 @@ const App = () => {
                                     <Route
                                         path="/feed/:id"
                                         element={
-                                            <Modal title="Детали заказа" closeModal={closeModal}>
+                                            <Modal title="Детали заказа" closeModal={closeModal} typeModal={``}>
                                                 <OrderCompositionPage/>
                                             </Modal>
                                         }
@@ -83,7 +83,7 @@ const App = () => {
                                     <Route
                                         path='/profile/orders/:id'
                                         element={
-                                            <Modal title="Детали заказа" closeModal={closeModal}>
+                                            <Modal title="Детали заказа" closeModal={closeModal} typeModal={``}>
                                                 <OrderCompositionPage/>
                                             </Modal>
                                         }
@@ -93,8 +93,8 @@ const App = () => {
                             }
                         </div >
                 }
-            </ErrorBoundary>
 
+            </>
     )
 }
 
