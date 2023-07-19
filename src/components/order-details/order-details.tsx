@@ -1,14 +1,8 @@
 import React from "react";
 import iconDone from '../../images/icon-done.svg';
 import styles from './order-details.module.css';
+import {TOrderDetails} from "../../constants/types";
 
-type TOrder = {
-    number: number
-}
-
-type TOrderDetails ={
-order: TOrder
-}
 
 const OrderDetails: React.FC<TOrderDetails> = ({ order }) => {
     return (

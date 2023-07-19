@@ -1,35 +1,21 @@
 import React from "react";
 import Card from '../card/card';
 import { useMemo } from 'react';
-
 import styles from './ingredients-list.module.css';
 import { useSelector } from 'react-redux';
 import {selectComponents, selectBuns} from "../../services/selectors/selectors";
+import {TDragIngredient, TIngredient} from "../../constants/types";
+import {useAppSelector} from "../../hooks/hooks";
 
-type TFullIngredient = {
-    _id:string;
-    type: string;
-    name: string;
-    price: number;
-    image: string;
-    image_large: string;
-    image_mobile: string;
-    calories: number;
-    proteins: number;
-    carbohydrates: number;
-    fat: number;
-    dragId: number;
-
-}
 
 type TIngredients = {
-    ingredients: Array<TFullIngredient>;
+    ingredients: Array<TIngredient>;
 }
 
 const IngredientsList : React.FC<TIngredients>= ({ ingredients }) => {
 
-    const components: Array<TFullIngredient> = useSelector(selectComponents);
-    const buns = useSelector(selectBuns);
+    const components: Array<TDragIngredient> = useAppSelector(selectComponents);
+    const buns = useAppSelector(selectBuns);
 
     const ingredientsCounts = useMemo(() => {
         let counts: any = {};
@@ -47,7 +33,7 @@ const IngredientsList : React.FC<TIngredients>= ({ ingredients }) => {
         <ul className={[styles.container, 'pt-6 pb-10'].join(' ')}>
 
             {
-                ingredients.map((elem: TFullIngredient ) => {
+                ingredients.map((elem: TIngredient ) => {
                     const { _id } = elem
                     return (
                         <li className="ingredient" key={_id} >

@@ -1,5 +1,4 @@
-import { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useEffect } from 'react';
 import {  Routes, Route, useLocation, useNavigate} from 'react-router-dom';
 import ErrorBoundary from '../error/error-boundary';
 import Preloader from '../preloader/preloader';
@@ -9,23 +8,26 @@ import { getApiIngredients } from '../../services/actions/burger-ingredients';
 import {selectIngredients} from "../../services/selectors/selectors";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import Modal from "../modal/modal";
+import OrderCompositionPage from "../../pages/order-composition-page/order-composition-page";
+import {useAppDispatch, useAppSelector} from "../../hooks/hooks";
+import {checkUserAuth} from "../../services/actions/user";
 
 const App = () => {
 
-    const dispatch = useDispatch();
-    const { itemsRequest, items : ingredients } = useSelector(selectIngredients);
-
+    const dispatch = useAppDispatch();
+    const { itemsRequest, items  } = useAppSelector(selectIngredients);
+    const ingredients =  items;
     const location = useLocation();
     const navigate = useNavigate();
     let background = location.state && location.state.background;
 
-    useEffect(() => { dispatch(getApiIngredients()) }, [dispatch])
+    useEffect(() => { dispatch(getApiIngredients()); dispatch(checkUserAuth()) }, [dispatch])
 
     const closeModal = () => { navigate(-1)};
 
     return (
 
-            <ErrorBoundary errorApp={false} >
+                <>
                 {
                     itemsRequest && ingredients
                         ? <Preloader />
@@ -37,7 +39,7 @@ const App = () => {
                                     return (elem.hasOwnProperty('leftMenu')
                                         ?
                                         <Route path={elem.path} element={elem.element} key={elem.path} >
-                                            {elem.leftMenu.map(item => <Route path={item.path} element={item.element} key={item.path} />)}
+                                            {elem.leftMenu?.map(item => <Route path={item.path} element={item.element} key={item.path} />)}
                                         </Route>
                                         : <Route path={elem.path} element={elem.element} key={elem.path} />
                                     )
@@ -45,6 +47,18 @@ const App = () => {
                                 }
                                 currentIngredient &&
                                 <Route path='/ingredients/:ingredientId' element={<IngredientDetails ingredients = {ingredients}/>} />
+                                <Route
+                                    path='/feed/:id'
+                                    element={
+                                            <OrderCompositionPage/>
+                                    }
+                                />
+                                <Route
+                                    path='/profile/orders/:id'
+                                    element={
+                                        <OrderCompositionPage/>
+                                    }
+                                />
                             </Routes>
 
                             {(background && ingredients) &&
@@ -53,17 +67,34 @@ const App = () => {
                                         path='/ingredients/:ingredientId'
                                         element={
 
-                                            <Modal closeModal={closeModal}  >
+                                            <Modal closeModal={closeModal}  title="Детали ингредиента" typeModal={``}>
                                                 <IngredientDetails ingredients = {ingredients}/>
                                             </Modal>
                                         }
                                     />
+                                    <Route
+                                        path="/feed/:id"
+                                        element={
+                                            <Modal title="Детали заказа" closeModal={closeModal} typeModal={``}>
+                                                <OrderCompositionPage/>
+                                            </Modal>
+                                        }
+                                    />
+                                    <Route
+                                        path='/profile/orders/:id'
+                                        element={
+                                            <Modal title="Детали заказа" closeModal={closeModal} typeModal={``}>
+                                                <OrderCompositionPage/>
+                                            </Modal>
+                                        }
+                                    />
+
                                 </Routes>
                             }
                         </div >
                 }
-            </ErrorBoundary>
 
+            </>
     )
 }
 

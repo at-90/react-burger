@@ -1,0 +1,61 @@
+.card{
+    text-align: left;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.card .scrollList{
+    height: 20vh
+}
+
+.ingredient{
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.ingredient__image{
+    position: relative;
+    width: 68px;
+    height: 68px;
+    border-radius: 50%;
+    border: solid 2px transparent;
+    overflow: hidden;
+    background: linear-gradient(125deg,#801AB2,#4C4CFF);
+
+}
+
+.ingredient__imageWrapper{
+    position: relative;
+    background: #131316;
+    overflow: hidden;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.ingredient__image img{
+    display: block;
+    object-fit: cover;
+    object-position: center;
+    width: 120%;
+
+}
+
+.price{
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-left: auto;
+}
+
+.footer{
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-left: auto;
+}
+

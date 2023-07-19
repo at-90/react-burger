@@ -1,6 +1,5 @@
 import React from "react";
-import {Link, useNavigate} from "react-router-dom";
-import {useDispatch, useSelector} from "react-redux";
+import {Link} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {
     Button,
@@ -12,20 +11,15 @@ import ErrorMessage from "../../components/error/error-message";
 import {registerUser} from "../../services/actions/user";
 import {CLEAR_APP_MESSAGES} from "../../services/actions";
 import {selectAppMessage} from "../../services/selectors/selectors";
-
-type TUser = {
-    email: string;
-    name: string;
-    password?:string;
-}
+import {useAppDispatch, useAppSelector} from "../../hooks/hooks";
 
 
 const RegisterPage = () => {
 
-    const [user, setUser] = useState<TUser>({name:'',email:''});
-    const error = useSelector(selectAppMessage);
+    const [user, setUser] = useState({name:'',email:'', password:''});
+    const error = useAppSelector(selectAppMessage);
 
-    const dispatch:React.Dispatch<any> = useDispatch()
+    const dispatch=useAppDispatch();
 
     const handleSubmit =(e: React.SyntheticEvent)=>{
         e.preventDefault();
@@ -34,7 +28,8 @@ const RegisterPage = () => {
 
     useEffect(() => {
         dispatch({
-            type: CLEAR_APP_MESSAGES
+            type: CLEAR_APP_MESSAGES,
+            message:''
         })
     }, [])
 

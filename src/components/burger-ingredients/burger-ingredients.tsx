@@ -1,23 +1,16 @@
 import React, { useState, useRef, useCallback, useEffect, useMemo } from 'react';
-import { useSelector } from 'react-redux';
+import { useAppSelector } from '../../hooks/hooks';
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import IngredientsList from '../ingredients-list/ingredients-list';
 import {selectIngredients} from "../../services/selectors/selectors";
 import burgerIngredientsStyles from './burger-ingredients.module.css';
 import { useInView } from "framer-motion";
-type TIngredient = {
-    name: string;
-    image: string;
-    type:string;
-    price:  number;
-    dragId: number
-
-}
+import {  TIngredient} from "../../constants/types";
 
 const BurgerIngredients = () => {
 
 
-    const { items } = useSelector(selectIngredients);
+    const { items } = useAppSelector(selectIngredients);
 
 
     const buns = useMemo(() => { return items.filter((elem: TIngredient) => elem.type === 'bun'); }, [items])
@@ -26,13 +19,13 @@ const BurgerIngredients = () => {
 
     const [current, setCurrent] = useState('buns');
 
-    const scrollListRef  = useRef<HTMLElement | any>(null);
+    const scrollListRef  = useRef<HTMLDivElement >(null);
     const refBuns = useRef<HTMLElement>(null);
     const refSauces = useRef<HTMLElement>(null);
     const refFillings = useRef<HTMLElement>(null);
 
     const inViewBuns = useInView(refBuns, {  root: scrollListRef })
-    const inViewSauces = useInView(refSauces, {  amount: 0.25, margin: '-150px', root: scrollListRef, })
+    const inViewSauces = useInView(refSauces, {  amount: 0.75, margin: '-35px', root: scrollListRef, })
     const inViewFillings = useInView(refFillings, { amount: 0.45, root: scrollListRef, })
 
 

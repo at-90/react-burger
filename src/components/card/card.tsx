@@ -1,5 +1,4 @@
 import React from "react";
-import { useDispatch } from 'react-redux';
 import { INGREDIENT_DETAILS_SET } from '../../services/actions/ingredients-details';
 import { Link, useLocation } from "react-router-dom";
 import styles from './card.module.css';
@@ -7,20 +6,9 @@ import {
     CurrencyIcon, Counter
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useDrag } from "react-dnd";
+import {useAppDispatch} from "../../hooks/hooks";
+import {TIngredient} from "../../constants/types";
 
-type TIngredient = {
-    _id: string;
-    name: string;
-    type: string;
-    proteins: number;
-    fat: number;
-    carbohydrates: number;
-    calories: number;
-    price: number;
-    image: string;
-    image_mobile: string;
-    image_large: string;
-}
 
 type TIngredientItem = {
     data: TIngredient,
@@ -34,7 +22,7 @@ const Card :React.FC<TIngredientItem> =  ({ data , count  }) => {
 
     const { name, image, price } = data;
 
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch()
 
     const [{ opacity, isDrag }, dragRef] = useDrag({
         type: 'ingredient',

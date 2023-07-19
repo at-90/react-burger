@@ -1,6 +1,5 @@
-import { useState, useEffect, useContext, useCallback, useMemo } from 'react';
-import PropTypes from 'prop-types';
-import { useDispatch, useSelector } from 'react-redux';
+import { useState, useEffect, useCallback, useMemo } from 'react';
+import {useAppDispatch, useAppSelector} from '../../hooks/hooks';
 import { checkout } from '../../services/actions/order-details';
 import { ORDER_DETAILS_RESET } from '../../services/actions/order-details';
 import Modal from "../modal/modal";
@@ -16,39 +15,22 @@ import { useDrop } from 'react-dnd';
 import { ADD_BUN, ADD_INGREDIENT, CONSTRUCTOR_UPDATE, CONSTRUCTOR_RESET } from '../../services/actions/burger-constructor';
 import uuid from 'react-uuid';
 import {useNavigate} from "react-router-dom";
+import {   TIngredient, TDragIngredient} from "../../constants/types";
+import {selectBuns, selectComponents, selectUser, selectTotalSum, selectOrderDetails} from "../../services/selectors/selectors";
+import Preloader from "../preloader/preloader";
 
-type TIngredientDragType = {
-    id: string;
-    type: string,
-    index: number;
-}
 
-type TIngredient = {
-    id:string;
-    type: string
-    name: string;
-    price: number;
-    image: string;
-    dragId: number;
-
-}
 
 const BurgerConstructor = () => {
 
-    const dispatch = useDispatch();
+    const dispatch= useAppDispatch();
     const navigate = useNavigate();
-    const isLoggedIn = useSelector((store:any)  => store.user.isLoggedIn);
+    const {isLoggedIn} = useAppSelector(selectUser);
 
-    const getStoreComponents = ((store:any) => store.burgerConstructor.components)
-    const getStoreBuns = ((store:any) => store.burgerConstructor.buns)
-    const getStoreTotalSum = ((store:any) => store.burgerConstructor.totalSum)
-    const getStoreOrderDetails = ((store:any) => store.orderDetails)
-
-
-    const orderList = useSelector(getStoreComponents);
-    const buns = useSelector(getStoreBuns);
-    const totalSum = useSelector(getStoreTotalSum);
-    const orderDetails = useSelector(getStoreOrderDetails);
+    const orderList = useAppSelector(selectComponents);
+    const buns = useAppSelector(selectBuns);
+    const totalSum = useAppSelector(selectTotalSum);
+    const orderDetails = useAppSelector(selectOrderDetails);
 
     const bun = buns[0] ?? null;
 
@@ -56,7 +38,7 @@ const BurgerConstructor = () => {
 
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    const [, dropTargetRef] = useDrop<TIngredientDragType>({
+    const [, dropTargetRef] = useDrop<TDragIngredient, void>({
         accept: "ingredient",
         drop(item ) {
 
@@ -85,6 +67,7 @@ const BurgerConstructor = () => {
         })
     });
 
+
     const handleModalOpen = () => {
         setIsModalOpen(true)
 
@@ -100,7 +83,7 @@ const BurgerConstructor = () => {
     const handleCheckout = () => {
         if(isLoggedIn){
             dispatch({type: ORDER_DETAILS_RESET});
-            dispatch<any>(checkout(cart));
+            dispatch(checkout(cart));
             handleModalOpen();
         }else{
             navigate('/login')}
@@ -128,64 +111,65 @@ const BurgerConstructor = () => {
 
     }, [orderList, dispatch]);
 
+
     return (
 
-        <div ref={dropTargetRef} className={burgerConstructorStyles.order}>
+                <div ref={dropTargetRef} className={burgerConstructorStyles.order}>
 
-            {(orderList.length || buns.length)
-                ? <>
-                    {bun &&
-                        <ConstructorElement
-                            type="top"
-                            isLocked={true}
-                            text={`${bun.name} (верх)`}
-                            price={bun.price}
-                            thumbnail={bun.image}
-                        />
-                    }
-
-                    <div className="scrollList scrollList-short mt-4 mb-4 pr-2 nmr-4">
-                        <div className={burgerConstructorStyles.orderList}>
-                            {orderList.map((elem: TIngredient, index: number) => {
-                                return <DraggableItem item={elem} key={elem.dragId} index={index} moveCard={moveCard} />
-                            })
+                    {(orderList.length || buns.length)
+                        ? <>
+                            {bun &&
+							<ConstructorElement
+								type="top"
+								isLocked={true}
+								text={`${bun.name} (верх)`}
+								price={bun.price}
+								thumbnail={bun.image}
+							/>
                             }
-                        </div>
-                    </div>
 
-                    {bun &&
-                        <ConstructorElement
-                            type="top"
-                            isLocked={true}
-                            text={`${bun.name} (низ)`}
-                            price={bun.price}
-                            thumbnail={bun.image}
-                            extraClass="constructor-element_pos_bottom"
-                        />
-                    }
+                            <div className="scrollList scrollList-short mt-4 mb-4 pr-2 nmr-4">
+                                <div className={burgerConstructorStyles.orderList}>
+                                    {orderList.map((elem: TIngredient, index: number) => {
+                                        return <DraggableItem item={elem} key={elem.dragId} index={index} moveCard={moveCard} />
+                                    })
+                                    }
+                                </div>
+                            </div>
 
-                    <div className={[burgerConstructorStyles.amount, 'pt-10'].join(' ')}>
-                        <div className={[burgerConstructorStyles.amountValue, 'mr-10'].join(' ')}>
+                            {bun &&
+							<ConstructorElement
+								type="top"
+								isLocked={true}
+								text={`${bun.name} (низ)`}
+								price={bun.price}
+								thumbnail={bun.image}
+								extraClass="constructor-element_pos_bottom"
+							/>
+                            }
+
+                            <div className={[burgerConstructorStyles.amount, 'pt-10'].join(' ')}>
+                                <div className={[burgerConstructorStyles.amountValue, 'mr-10'].join(' ')}>
                             <span className={"text text_type_digits-medium"}>
                                 {totalSum}
                             </span>
-                            <CurrencyIcon type="primary" />
-                        </div>
-                        <Button htmlType="button" type="primary" size="large" onClick={handleCheckout}>Оформить заказ</Button>
-                    </div>
+                                    <CurrencyIcon type="primary" />
+                                </div>
+                                <Button htmlType="button" type="primary" size="large" onClick={handleCheckout}>Оформить заказ</Button>
+                            </div>
 
-                    {isModalOpen && orderDetails.order && <Modal
-                        title=""
-                        typeModal="big"
-                        closeModal={handleModalClose}>
-                        <OrderDetails order={orderDetails.order.order} />
+                            {isModalOpen && orderDetails.order && <Modal
+								title=""
+								typeModal="big"
+								closeModal={handleModalClose}>
+								<OrderDetails order={orderDetails.order.order} />
 
-                    </Modal>}
+							</Modal>}
 
-                </>
-                : <div className={burgerConstructorStyles.cta}>Перетащите ингредиенты</div>
-            }
-        </div>
+                        </>
+                        : <div className={burgerConstructorStyles.cta}>Перетащите ингредиенты</div>
+                    }
+                </div>
 
     )
 }

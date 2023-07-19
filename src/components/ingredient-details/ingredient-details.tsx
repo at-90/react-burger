@@ -1,23 +1,11 @@
 import React, {useMemo} from "react";
 import { useParams } from "react-router-dom";
 import styles from './ingredient-details.module.css';
+import {TIngredient} from "../../constants/types";
 
-type TFullIngredient = {
-    _id:string;
-    type: string;
-    name: string;
-    price: number;
-    image: string;
-    image_large: string;
-    calories: string;
-    proteins: string;
-    carbohydrates: string;
-    fat: string;
-    dragId: number;
-}
 
 type TIngredients = {
-    ingredients: Array<TFullIngredient>;
+    ingredients: Array<TIngredient>;
 }
 
 const IngredientDetails :React.FC<TIngredients> = ({ingredients}) => {

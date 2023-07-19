@@ -1,11 +1,11 @@
 import {  NavLink, Outlet } from 'react-router-dom';
 import {logoutUser} from "../../services/actions/user";
-import styles from './profile-page.module.css'
-import {useDispatch} from "react-redux";
+import styles from './profile-page.module.css';
+import {useAppDispatch} from "../../hooks/hooks";
 
 const ProfilePage = () => {
 
-    const dispatch: React.Dispatch<any> = useDispatch()
+    const dispatch=useAppDispatch()
     const handlerExit =(e: React.SyntheticEvent)=>{
             e.preventDefault();
             dispatch(logoutUser());
