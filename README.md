@@ -1,6 +1,6 @@
 # Burger Joint App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+[https://at-90.github.io/react-burger/](https://at-90.github.io/react-burger/).
 
 ## Available Scripts
 
