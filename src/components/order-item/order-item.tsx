@@ -37,6 +37,11 @@ const OrderItem = (props: TOrderItem) => {
     }, [ingredients, order]);
 
 
+    const orderImages = useMemo(() => {
+        return Array.from(new Set<TIngredient>(orderIngredients));
+    }, [orderIngredients]);
+
+
     const length = orderIngredients.length;
 
     let orderPrice = useMemo(() => {
@@ -72,7 +77,7 @@ const OrderItem = (props: TOrderItem) => {
                 <div className={`${styles.footer}`}>
                     <div className={`${styles.order__items}`}>
                         {
-                            orderIngredients?.map((elem, i) => {
+                            orderImages?.map((elem, i) => {
                                 if (i < 5) {
                                     return (
                                         <div className={`${styles.order__image}`} key={i} style={{ zIndex: length * 2 - i }}>
