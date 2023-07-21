@@ -1,9 +1,9 @@
-import {API_HOST, API_USER, REFRESH_TOKEN} from "../constants/api";
+import { API_HOST, API_USER, REFRESH_TOKEN } from "../constants/api";
 import { getLocalStorage, setLocalStorage } from "./localStorage";
 import { getCookie, setCookie } from "./cookie";
 
 const checkResponse = (res: Response) => {
-      return res.ok
+    return res.ok
         ? res.json()
         : res.json().then((err) => {
             console.log(res.status)
@@ -16,22 +16,22 @@ export const request = (url: string, options?: RequestInit) => {
 }
 
 export const refreshTokenRequest = () => {
-    return fetch(API_HOST+REFRESH_TOKEN, {
+    return fetch(API_HOST + REFRESH_TOKEN, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json;charset=utf-8',
         },
-        body: JSON.stringify({token: getLocalStorage('rtoken')})
+        body: JSON.stringify({ token: getLocalStorage('rtoken') })
     })
         .then(checkResponse)
 }
 
 export const getUser = () => {
-    return fetchWithRefresh(API_HOST+API_USER, {
+    return fetchWithRefresh(API_HOST + API_USER, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
-            authorization: 'Bearer ' +getCookie("atoken") || "",
+            authorization: 'Bearer ' + getCookie("atoken") || "",
         },
     });
 };

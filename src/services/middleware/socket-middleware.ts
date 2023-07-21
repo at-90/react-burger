@@ -1,7 +1,7 @@
 import type { Middleware } from 'redux';
-import { TApplicationActions} from "../../constants/types";
+import { TApplicationActions } from "../../constants/types";
 import { TWSActionProps } from "../actions/ws";
-import {  RootState } from "../../constants/types";
+import { RootState } from "../../constants/types";
 
 export const socketMiddleware = (wsActions: TWSActionProps, wsUrl: string): Middleware<RootState> => {
     return ((store) => {
@@ -30,9 +30,9 @@ export const socketMiddleware = (wsActions: TWSActionProps, wsUrl: string): Midd
                 };
 
 
-                socket.onerror = event  => {
-                    dispatch({ type: wsConnectionError, payload: event  });
-                    console.log(event)
+                socket.onerror = event => {
+                    dispatch({ type: wsConnectionError, payload: event });
+
                 };
 
 
@@ -45,7 +45,7 @@ export const socketMiddleware = (wsActions: TWSActionProps, wsUrl: string): Midd
 
                 socket.onclose = event => {
                     dispatch({ type: wsConnectionClosed, payload: event });
-                    if (event.wasClean){
+                    if (event.wasClean) {
                         console.log('Соединение закрыто корректно');
                         console.log(`Код закрытия - ${event.code}`);
                         console.log(`Причина закрытия - ${event.reason}`)

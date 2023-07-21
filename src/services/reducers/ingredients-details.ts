@@ -1,7 +1,7 @@
-import {INGREDIENT_DETAILS_SET, TIngredientsDetails} from "../actions/ingredients-details";
+import { INGREDIENT_DETAILS_SET, TIngredientsDetails } from "../actions/ingredients-details";
 
-const currentIngredientState = {}
-export const currentIngredientReducer = (state = currentIngredientState, action:TIngredientsDetails) => {
+export const currentIngredientState = {}
+export const currentIngredientReducer = (state = currentIngredientState, action: TIngredientsDetails) => {
     switch (action.type) {
         case INGREDIENT_DETAILS_SET: {
             return {

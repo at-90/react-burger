@@ -5,7 +5,6 @@ import {
     REGISTER_SUCCESS,
     REGISTER_FAILED,
     REGISTER_REQUEST,
-    PERSONAL_INFO_CHANGE,
     RECOVERY_PWD_SUCCESS,
     LOGOUT_SUCCESS,
     SAVE_NEW_PWD_FAILED,
@@ -26,7 +25,7 @@ export type TUserState = {
     error: string
 }
 
-const userState: TUserState = {
+export const userState: TUserState = {
     user: null,
     loginRequest: false,
     loginError: false,
@@ -129,12 +128,7 @@ export const userReducer = (state = userState, action: TUsersActions): TUserStat
             }
         }
 
-        case GET_USER_INFO_FAILED: {
-            return {
-                ...state,
-                error: action.error
-            }
-        }
+
         case GET_USER_INFO_SUCCESS: {
             return {
                 ...state,

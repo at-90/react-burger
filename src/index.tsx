@@ -4,23 +4,23 @@ import './index.css';
 import { compose, createStore, applyMiddleware } from 'redux';
 import { rootReducer } from './services/reducers';
 import { Provider } from 'react-redux';
-import {BrowserRouter} from 'react-router-dom';
+import { BrowserRouter, HashRouter } from 'react-router-dom';
 import App from './components/app/app';
 import reportWebVitals from './reportWebVitals';
-import thunk  from 'redux-thunk';
-import {socketMiddleware} from "./services/middleware/socket-middleware";
-import {wsUrl} from "./constants/api";
-import {wsActions, wsOrderActions} from "./services/actions/ws";
+import thunk from 'redux-thunk';
+import { socketMiddleware } from "./services/middleware/socket-middleware";
+import { wsUrl } from "./constants/api";
+import { wsActions, wsOrderActions } from "./services/actions/ws";
 
 declare global {
-    interface Window {
-        __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose;
-    }
+  interface Window {
+    __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose;
+  }
 }
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-const enhancer = composeEnhancers(applyMiddleware(thunk,socketMiddleware(wsActions, wsUrl),socketMiddleware(wsOrderActions,wsUrl)));
+const enhancer = composeEnhancers(applyMiddleware(thunk, socketMiddleware(wsActions, wsUrl), socketMiddleware(wsOrderActions, wsUrl)));
 
 const store = createStore(rootReducer, enhancer);
 
@@ -31,9 +31,9 @@ const root = ReactDOM.createRoot(
 root.render(
 
   <Provider store={store}>
-      <BrowserRouter>
-            <App />
-      </BrowserRouter>
+    <HashRouter>
+      <App />
+    </HashRouter>
   </Provider>
 
 );

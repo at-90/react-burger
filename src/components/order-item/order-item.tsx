@@ -1,19 +1,19 @@
-import {TIngredient, TOrderItem} from "../../constants/types";
-import {useMemo} from "react";
-import {Link,useLocation} from "react-router-dom";
+import { TIngredient, TOrderItem } from "../../constants/types";
+import { useMemo } from "react";
+import { Link, useLocation } from "react-router-dom";
 import {
     CurrencyIcon,
     FormattedDate,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import {selectIngredients} from "../../services/selectors/selectors";
+import { selectIngredients } from "../../services/selectors/selectors";
 import styles from './order-item.module.css';
-import {useAppSelector} from "../../hooks/hooks";
+import { useAppSelector } from "../../hooks/hooks";
 
 const OrderItem = (props: TOrderItem) => {
 
-    const { order ,  type } = props;
+    const { order, type } = props;
     const location = useLocation();
-    const {items : ingredients} =  useAppSelector(selectIngredients);
+    const { items: ingredients } = useAppSelector(selectIngredients);
 
 
     enum orderStatusList {
@@ -22,32 +22,33 @@ const OrderItem = (props: TOrderItem) => {
         done = "Выполнен"
     }
 
-    const orderStatus = ()=> {
+    const orderStatus = () => {
         if (order.status === 'created') return orderStatusList.created
         if (order.status === 'pending') return orderStatusList.pending
         if (order.status === 'done') return orderStatusList.done
     }
 
-   const orderIngredients  = useMemo(() => {
-            return order.ingredients.map((id) => {
-                return ingredients.find((ingredient:TIngredient) => ingredient._id === id
-                )
-            }).filter((elem): elem is TIngredient => elem !== undefined);
-        }, [ingredients, order]);
+    const orderIngredients = useMemo(() => {
+
+        return order.ingredients.map((id) => {
+            return ingredients.find((ingredient: TIngredient) => ingredient._id === id
+            )
+        }).filter((elem): elem is TIngredient => elem !== undefined);
+    }, [ingredients, order]);
 
 
-    const length =  orderIngredients.length;
+    const length = orderIngredients.length;
 
     let orderPrice = useMemo(() => {
-        return orderIngredients.reduce((result, elem ) => result + elem?.price, 0);
+        return orderIngredients.reduce((result, elem) => result + elem?.price, 0);
     }, [orderIngredients]);
 
     return (
         <Link
-            to={type==='profile'
-                ?`/profile/orders/${order.number}`
+            to={type === 'profile'
+                ? `/profile/orders/${order.number}`
                 : `/feed/${order.number}`}
-            state = {{ background: location }}
+            state={{ background: location }}
             className={`p-6 ${styles.orderInfo}`} >
 
             <div className={`${styles.card}`}>
@@ -71,26 +72,26 @@ const OrderItem = (props: TOrderItem) => {
                 <div className={`${styles.footer}`}>
                     <div className={`${styles.order__items}`}>
                         {
-                            orderIngredients?.map((elem,i) => {
-                            if( i < 5){
-                                return (
-                                    <div className={`${styles.order__image}`} key={i} style={{zIndex:length*2-i}}>
-                                        <div className={`${styles.order__imageWrapper}`}>
-                                            <img src={elem?.image} alt={`${elem?.name}`} />
+                            orderIngredients?.map((elem, i) => {
+                                if (i < 5) {
+                                    return (
+                                        <div className={`${styles.order__image}`} key={i} style={{ zIndex: length * 2 - i }}>
+                                            <div className={`${styles.order__imageWrapper}`}>
+                                                <img src={elem?.image} alt={`${elem?.name}`} />
+                                            </div>
                                         </div>
-                                    </div>
-                                )
+                                    )
                                 }
-                            if( i === 5) {
-                                return (
-                                    <div className={`${styles.order__image}`} key={i} style={{zIndex:length*2-i}}>
-                                        <div className={`${styles.order__imageWrapper}`}>
-                                            <img src={elem?.image} alt={`${elem?.name}`} />
-                                            <p className={`${styles.more} text text_type_digits-default`}>{'+' + (length - 5)}</p>
+                                if (i === 5) {
+                                    return (
+                                        <div className={`${styles.order__image}`} key={i} style={{ zIndex: length * 2 - i }}>
+                                            <div className={`${styles.order__imageWrapper}`}>
+                                                <img src={elem?.image} alt={`${elem?.name}`} />
+                                                <p className={`${styles.more} text text_type_digits-default`}>{'+' + (length - 5)}</p>
+                                            </div>
                                         </div>
-                                    </div>
-                                )
-                            }
+                                    )
+                                }
                             })
                         }
                     </div>
