@@ -4,20 +4,20 @@ import {
     GET_ITEMS_FAILED,
     TBurgerIngredientsActions
 } from '../actions/burger-ingredients';
-import {TDragIngredient, TIngredient} from "../../constants/types";
+import { TDragIngredient, TIngredient } from "../../constants/types";
 
 type TingredientsState = {
-    items: Array< TIngredient >,
+    items: Array<TIngredient>,
     itemsRequest: boolean,
     itemsFailed: boolean,
 }
 
-const ingredientsState:TingredientsState = {
+export const ingredientsState: TingredientsState = {
     items: [],
     itemsRequest: false,
     itemsFailed: false,
 }
-export const ingredientsReducer = (state = ingredientsState, action:TBurgerIngredientsActions): TingredientsState => {
+export const ingredientsReducer = (state = ingredientsState, action: TBurgerIngredientsActions): TingredientsState => {
     switch (action.type) {
         case GET_ITEMS_REQUEST: {
             return {

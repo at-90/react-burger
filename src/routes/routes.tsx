@@ -18,16 +18,16 @@ export const profileLeftMenu = [
 ]
 
 export const routesPrivate = [
-    { path: '/order-item', element: <ProtectedRouteElement element={<ProfileOrders />} />},
-    { path: '/profile', element: <ProtectedRouteElement element={<ProfilePage />} />, leftMenu: profileLeftMenu },
-    { path: '/forgot-password', element: <AuthElement element={<ForgotPasswordPage />}   />},
-    { path: '/reset-password', element:  <AuthElement element={<ResetPasswordPage />}   />}
+    { path: 'order-item', element: <ProtectedRouteElement element={<ProfileOrders />} /> },
+    { path: 'profile', element: <ProtectedRouteElement element={<ProfilePage />} />, leftMenu: profileLeftMenu },
+    { path: 'forgot-password', element: <AuthElement element={<ForgotPasswordPage />} /> },
+    { path: 'reset-password', element: <AuthElement element={<ResetPasswordPage />} /> }
 ]
 
 export const routesPublic = [
-    { path: '/', element: < HomePage /> },
+    { path: '', element: < HomePage /> },
     { path: '*', element: <ErrorPage /> },
-    { path: '/feed', element: <FeedPage /> },
-    { path: '/login', element: <AuthElement element={<LoginPage />}   /> },
-    { path: '/register', element: <AuthElement  element={ <RegisterPage /> } /> },
+    { path: 'feed', element: <FeedPage /> },
+    { path: 'login', element: <AuthElement element={<LoginPage />} /> },
+    { path: 'register', element: <AuthElement element={<RegisterPage />} /> },
 ]

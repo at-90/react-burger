@@ -5,7 +5,6 @@ import {
     REGISTER_SUCCESS,
     REGISTER_FAILED,
     REGISTER_REQUEST,
-    PERSONAL_INFO_CHANGE,
     RECOVERY_PWD_SUCCESS,
     LOGOUT_SUCCESS,
     SAVE_NEW_PWD_FAILED,
@@ -13,7 +12,7 @@ import {
     GET_USER_INFO_FAILED,
     UPDATE_PERSONAL_INFO_SUCCESS, TUsersActions
 } from "../actions/user";
-import {TUser} from "../../constants/types";
+import { TUser } from "../../constants/types";
 
 export type TUserState = {
     user: TUser | null;
@@ -21,26 +20,23 @@ export type TUserState = {
     loginError: boolean;
     registerRequest: boolean;
     registerError: boolean;
-    isLoggedIn:boolean;
+    isLoggedIn: boolean;
     isEmailSend: boolean;
     error: string
 }
 
- const userState: TUserState = {
-    user: {
-        name:'',
-        email:''
-    } ,
+export const userState: TUserState = {
+    user: null,
     loginRequest: false,
     loginError: false,
     registerRequest: false,
     registerError: false,
-    isLoggedIn:false,
+    isLoggedIn: false,
     isEmailSend: false,
-    error:''
+    error: ''
 }
 
-export const userReducer = (state = userState, action:TUsersActions):TUserState => {
+export const userReducer = (state = userState, action: TUsersActions): TUserState => {
 
     switch (action.type) {
 
@@ -132,12 +128,7 @@ export const userReducer = (state = userState, action:TUsersActions):TUserState 
             }
         }
 
-        case GET_USER_INFO_FAILED: {
-            return {
-                ...state,
-                error: action.error
-            }
-        }
+
         case GET_USER_INFO_SUCCESS: {
             return {
                 ...state,

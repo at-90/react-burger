@@ -9,7 +9,7 @@ import {
     WS_GET_ORDERS_MESSAGE
 } from '../actions/ws'
 
-import {TOrderItemComposition} from "../../constants/types";
+import { TOrderItemComposition } from "../../constants/types";
 
 type WsStore = {
     orders: Array<TOrderItemComposition>;
@@ -19,7 +19,7 @@ type WsStore = {
     error?: string | null | WebSocketEventMap
 }
 
-const initialState: WsStore = {
+export const initialState: WsStore = {
     wsConnected: false,
     orders: [],
     total: 0,
@@ -27,7 +27,7 @@ const initialState: WsStore = {
     error: '',
 }
 
-export const wsProfileReducer = (state = initialState, action: TWsConnectionActions):WsStore  => {
+export const wsProfileReducer = (state = initialState, action: TWsConnectionActions): WsStore => {
     switch (action.type) {
         case WS_CONNECTION_ORDERS_START: {
             return {
@@ -57,7 +57,7 @@ export const wsProfileReducer = (state = initialState, action: TWsConnectionActi
                 total: 0,
                 totalToday: 0,
                 wsConnected: false,
-                error:  action.payload
+                error: action.payload
             };
         }
         case WS_CONNECTION_ORDERS_END: {

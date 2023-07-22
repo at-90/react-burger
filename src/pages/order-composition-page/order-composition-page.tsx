@@ -3,12 +3,12 @@ import {
     CurrencyIcon,
     FormattedDate,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import {  useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import styles from './order-composition-page.module.css'
-import {TIngredient, TOrderItemComposition} from "../../constants/types";
-import {useAppDispatch, useAppSelector} from "../../hooks/hooks";
-import {selectIngredients} from "../../services/selectors/selectors";
-import { getOrder} from "../../services/actions/order-details";
+import { TIngredient, TOrderItemComposition } from "../../constants/types";
+import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
+import { selectIngredients } from "../../services/selectors/selectors";
+import { getOrder } from "../../services/actions/order-details";
 
 
 const OrderCompositionPage = () => {
@@ -27,9 +27,9 @@ const OrderCompositionPage = () => {
         updatedAt: "",
     });
 
-    const {items : ingredients} = useAppSelector(selectIngredients);
+    const { items: ingredients } = useAppSelector(selectIngredients);
 
-    const {currentOrder} = useAppSelector((state) => state.orderDetails);
+    const { currentOrder } = useAppSelector((state) => state.orderDetails);
 
     useEffect(() => {
         if (currentOrder) {
@@ -52,7 +52,7 @@ const OrderCompositionPage = () => {
         done = "Выполнен"
     }
 
-    const orderStatus = ()=> {
+    const orderStatus = () => {
         if (order.status === 'created') return orderStatusList.created
         if (order.status === 'pending') return orderStatusList.pending
         if (order.status === 'done') return orderStatusList.done
@@ -62,8 +62,8 @@ const OrderCompositionPage = () => {
 
         return Array.from(new Set(
             order?.ingredients.map((id) => {
-                    return ingredients.find((ingredient: TIngredient) => ingredient._id === id);
-                })
+                return ingredients.find((ingredient: TIngredient) => ingredient._id === id);
+            })
         ));
 
     }, [ingredients, order]);
@@ -83,7 +83,7 @@ const OrderCompositionPage = () => {
             {}
         );
 
-    }, [  orderIngredients]);
+    }, [orderIngredients]);
 
 
     const orderPrice = useMemo(() => {
@@ -105,58 +105,58 @@ const OrderCompositionPage = () => {
 
 
     return <div className={styles.card}>
-            <div className={`text text_type_digits-default`} >
-                #{order?.number}
-            </div>
-            <div className={`text text_type_main-medium mt-10`} >
-                {order?.name}
-            </div>
-            <div className={`text text_type_main-default mt-3 `} style={{color: order?.status === 'done' ? '#00CCCC' : '#FFFFFF'}}>
-                {orderStatus()}
-            </div>
-            <div className={`text text_type_main-medium mt-15`} >
-                Состав:
-            </div>
-            <div className={`mt-6  scrollList ${styles.scrollList}`} >
-                {orderIngredients.map(
-                    (orderIngredient, index: number) => {
-                        return (
-                            <div className={`${styles.ingredient}`} key={index}>
-                                <div className={`${styles.ingredient__image}`}>
-                                    <div className={`${styles.ingredient__imageWrapper}`}>
-                                         <img src={orderIngredient?.image} alt={orderIngredient?.name} />
-                                    </div>
-                                </div>
-                                <div className={`text text_type_main-default`}>
-                                    {orderIngredient?.name}
-                                </div>
-                                <div className={`${styles.price}`}>
-                                    <span className="text text_type_digits-default">
-                                      {orderIngredient && countIngredients
-                                          ? `${countIngredients[orderIngredient?._id]}`
-                                          : ""}
-                                        x {orderIngredient?.price}
-                                    </span>
-                                    <span>
-                                      <CurrencyIcon type="primary" />
-                                    </span>
+        <div className={`text text_type_digits-default`} >
+            #{order?.number}
+        </div>
+        <div className={`text text_type_main-medium mt-10`} >
+            {order?.name}
+        </div>
+        <div className={`text text_type_main-default mt-3 `} style={{ color: order?.status === 'done' ? '#00CCCC' : '#FFFFFF' }}>
+            {orderStatus()}
+        </div>
+        <div className={`text text_type_main-medium mt-15`} >
+            Состав:
+        </div>
+        <div className={`mt-6  scrollList ${styles.scrollList}`} >
+            {orderIngredients.map(
+                (orderIngredient, index: number) => {
+                    return (
+                        <div className={`${styles.ingredient}`} key={index}>
+                            <div className={`${styles.ingredient__image}`}>
+                                <div className={`${styles.ingredient__imageWrapper}`}>
+                                    <img src={orderIngredient?.image} alt={orderIngredient?.name} />
                                 </div>
                             </div>
-                        );
-                    }
-                )}
+                            <div className={`text text_type_main-default`}>
+                                {orderIngredient?.name}
+                            </div>
+                            <div className={`${styles.price}`}>
+                                <span className="text text_type_digits-default">
+                                    {orderIngredient && countIngredients
+                                        ? `${countIngredients[orderIngredient?._id]}`
+                                        : ""}
+                                    x {orderIngredient?.price}
+                                </span>
+                                <span>
+                                    <CurrencyIcon type="primary" />
+                                </span>
+                            </div>
+                        </div>
+                    );
+                }
+            )}
+        </div>
+        <div className={`mt-10 ${styles.footer}`}>
+            <div className={`text text_type_main-default text_color_inactive ${styles.orderPage__summ_datetime}`} >
+                <FormattedDate date={new Date(order.createdAt)} />
             </div>
-            <div className={`mt-10 ${styles.footer}`}>
-                <div className={`text text_type_main-default text_color_inactive ${styles.orderPage__summ_datetime}`} >
-                    <FormattedDate date={new Date(order.createdAt)} />
-                </div>
-                <div className={`${styles.price}`}>
-                    <span className="text text_type_digits-default">{orderPrice}</span>
-                    <span>
-                      <CurrencyIcon type="primary" />
-                    </span>
-                </div>
+            <div className={`${styles.price}`}>
+                <span className="text text_type_digits-default">{orderPrice}</span>
+                <span>
+                    <CurrencyIcon type="primary" />
+                </span>
             </div>
+        </div>
     </div>
 }
 
